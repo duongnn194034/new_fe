@@ -4,12 +4,34 @@ import axios from 'axios'
 import React, { useContext } from 'react'
 
 import AppContext from '../context/AppContext'
+import { BaseURL } from '../ultis/Constants'
 
 import { assets, COLORS, FONTS, SHADOWS, SIZES } from '../constants'
 
 const SettingScreen = () => {
     const navigation = useNavigation();
     const appContext = useContext(AppContext);
+
+    let token = appContext.loginState.token;
+    const logout = async () => {
+        try {
+            const res = await axios.post(
+                `${BaseURL}/auth/logout`,
+                {},
+                {
+                    params: {
+                        token: token
+                    }
+                }
+            )
+            console.log(JSON.stringify(res))
+            appContext.dispatch({
+                type: 'LOGOUT'
+            })
+        } catch (error) {
+            console.log(JSON.stringify(error.message))
+        }
+    }
 
     const logoutButton = () => {
         Alert.alert("Alert", "Are you sure to logging out?", [
@@ -28,8 +50,6 @@ const SettingScreen = () => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView>
-
-
                 <TouchableOpacity
                     onPress={() => navigation.navigate("ChangePass")}
                     style={{

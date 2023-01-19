@@ -6,6 +6,25 @@ const ChangePassScreen = () => {
     const [password1, onChange1] = useState("");
     const [password2, onChange2] = useState("");
 
+    const changePassword = async () => {
+        try {
+            // const res = await axios.post(
+            //     `${BaseURL}/user/change_password`,
+            //     {},
+            //     {
+            //         params:{
+            //             token: token,
+            //             password: password1,
+            //             new_password: password2
+            //         }
+            //     }
+            // )
+            console.log(password1)
+        } catch (error) {
+            console.log(JSON.stringify(error.message))
+        }
+    }
+
     return (
         <View style={{
             backgroundColor: "white",
@@ -56,7 +75,7 @@ const ChangePassScreen = () => {
                 />
             </View>
             <TouchableOpacity
-                onPress={() => console.log("OK")}
+                onPress={changePassword}
                 style={{
                     backgroundColor: "#1877f2",
                     height: 40,

@@ -9,5 +9,5 @@ export const MALE = "male";
 export const FEMALE = "female";
 export const NO_GENDER = "secret";
 
-// files:
-export const BaseURL = "http://localhost:8000/files/"
+// server:
+export const BaseURL = "http://localhost:8080/"
