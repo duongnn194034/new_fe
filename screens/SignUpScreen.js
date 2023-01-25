@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Alert } from 'react-native'
-import CustomButton from './CustomButton'
-import CustomInput from './CustomInput'
-import Logo from '../assets/Facebook_f_logo_(2019).svg.png'
+import CustomButton from '../components/CustomButton'
+import CustomInput from '../components/CustomInput'
+import Logo from '../assets/images/facebook_logo'
 import MyDatePicker from './DatePicker'
-import * as RootNavigation from '../navigation/RootNavigation'
 import { useNavigation } from '@react-navigation/native'
 
 const navigation = useNavigation()
