@@ -44,17 +44,15 @@ const ProfileScreen = () => {
             }
             setImage(result.assets);
 
-            console.log(result.assets[0])
-
             const type = /\.(\w+)$/.exec(result.assets[0].uri)
-            console.log(/\.(\w+)$/.exec(result.assets[0].uri))
 
             let formdata = new FormData();
-            formdata.append("image", {
-                name: "avatar",
-                type: "image/" + type[1],
-                uri: result.assets[0].uri
-            });
+            formdata.append("image",
+                {
+                    name: "avatar",
+                    type: "image/" + type[1],
+                    uri: result.assets[0].uri
+                });
 
             const res = await axios.post(
                 `${BaseURL}/post/add_post`,

@@ -14,7 +14,12 @@ import {
     Keyboard,
     TouchableWithoutFeedback
 } from 'react-native'
+const FormData = require('form-data')
+
 import { assets, COLORS, FONTS, SIZES } from '../constants'
+import { BaseURL } from '../ultis/Constants'
+
+const MAX_AVATAR_SIZE = 4 * 1024 * 1024;
 
 const EditScreen = () => {
     // { username, description, address, city, country, link, birthday }
@@ -26,8 +31,105 @@ const EditScreen = () => {
     const [link, setLink] = useState("")
     const [birthday, setBirthday] = useState("")
 
+    // avatar, coverImage
     const [avatar, setAvatar] = useState(assets.avatar)
     const [cover, setCover] = useState(assets.coverImg)
+
+    const avatarlink = ""
+    const coverlink = ""
+    const typeAvatar = ""
+    const typeCover = ""
+
+    const changeInfo = async () => {
+        const formdata = new FormData()
+        formdata.append("avatar",
+            {
+                name: "avatar",
+                type: "image/" + typeAvatar[1],
+                uri: avatarlink
+            })
+        formdata.append("avatar",
+            {
+                name: "avatar",
+                type: "image/" + typeCover[1],
+                uri: coverlink
+            })
+
+        try {
+            const res = await axios(
+                `${BaseURL}/user/set_user_info`,
+                {
+                    avatar: avatar,
+                    coverImage: cover,
+                },
+                {
+                    params: {
+                        username: username,
+                        description: description,
+                        address: address,
+                        city: city,
+                        country: country,
+                        link: link,
+                        birthday: birthday
+                    }
+                }
+            )
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const pickAvatar = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [16, 9],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            if (result.assets[0].fileSize > MAX_AVATAR_SIZE) {
+                Alert.alert(
+                    "Alert: This image file is too big",
+                    "Only accept image under 4MB",
+                    {
+                        text: "OK",
+                        type: "cancel"
+                    }
+                )
+                return
+            }
+            setAvatar(result.assets);
+            avatarlink = result.assets[0].uri
+            typeAvatar = /\.(\w+)$/.exec(result.assets[0].uri)
+        }
+    };
+
+    const pickCover = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [16, 9],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            if (result.assets[0].fileSize > MAX_AVATAR_SIZE) {
+                Alert.alert(
+                    "Alert: This image file is too big",
+                    "Only accept image under 4MB",
+                    {
+                        text: "OK",
+                        type: "cancel"
+                    }
+                )
+                return
+            }
+            setImage(result.assets);
+            coverlink = result.assets[0].uri
+            typeCover = /\.(\w+)$/.exec(result.assets[0].uri)
+        }
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -39,6 +141,7 @@ const EditScreen = () => {
                         <View style={{ flexDirection: 'row', justifyContent: "space-between", marginHorizontal: 10, marginTop: 10 }}>
                             <Text style={{ fontFamily: FONTS.bold, fontSize: SIZES.extraLarge, }}>Ảnh đại diện</Text>
                             <Button title='Chỉnh sửa'
+                                onPress={pickAvatar}
                                 style={{ fontFamily: FONTS.regular, fontSize: SIZES.large, }} />
                         </View>
                         <Image
@@ -56,6 +159,7 @@ const EditScreen = () => {
                         <View style={{ flexDirection: 'row', justifyContent: "space-between", marginHorizontal: 10, marginTop: 10 }}>
                             <Text style={{ fontFamily: FONTS.bold, fontSize: SIZES.extraLarge, }}>Ảnh bìa</Text>
                             <Button title='Chỉnh sửa'
+                                onPress={pickCover}
                                 style={{ fontFamily: FONTS.regular, fontSize: SIZES.large, }} />
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: "space-between", marginHorizontal: 10 }}>
@@ -150,6 +254,7 @@ const EditScreen = () => {
 
                     <View>
                         <TouchableOpacity
+                            onPress={changeInfo}
                             style={{
                                 flex: 5,
                                 backgroundColor: "#1877f2",
