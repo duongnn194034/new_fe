@@ -23,6 +23,12 @@ import coverImg from "../assets/images/cover_img.jpg";
 import sanji_avatar from "../assets/images/sanji_avatar.jpg";
 import zoro_avatar from "../assets/images/zoro_avatar.jpg";
 import nami_avatar from "../assets/images/nami_avatar.jpg";
+import robin_avatar from "../assets/images/robin.jpg";
+import usopp_avatar from "../assets/images/usopp.jpg";
+import brook from "../assets/images/brook.jpg";
+import chopper from "../assets/images/chopper.jpg";
+import franky from "../assets/images/franky.jpg";
+import jimbei from "../assets/images/jimbei.jpg";
 
 import status from "../assets/images/status_ic.png"
 import work from "../assets/images/work_ic.png"
@@ -57,6 +63,12 @@ export default {
   sanji_avatar,
   nami_avatar,
   zoro_avatar,
+  brook,
+  robin_avatar,
+  franky,
+  chopper,
+  usopp_avatar,
+  jimbei,
 
   status,
   work,

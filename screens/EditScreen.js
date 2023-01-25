@@ -77,6 +77,7 @@ const EditScreen = () => {
                     }
                 }
             )
+            console.log(res)
         } catch (error) {
             console.log(error)
         }
