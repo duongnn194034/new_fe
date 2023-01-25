@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import { Text, View, Image, StyleSheet, useWindowDimensions, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigationContainerRef } from "@react-navigation/native";
 import Logo from "../assets/Facebook_f_logo_(2019).svg.png";
-import CustomInput from "./CustomInput";
-import CustomButton from "./CustomButton";
+import CustomInput from "..components/CustomInput";
+import CustomButton from "..components/CustomButton";
 import * as RootNavigation from "../navigation/RootNavigation"
 
 
@@ -15,8 +15,6 @@ const SignIn = () => {
 
     const axios = require('axios').default
     const baseUrl = 'https://91ed-2402-800-6173-d69d-9970-5275-891d-26df.ap.ngrok.io'
-    // const baseUrl = 'http://localhost:8080'
-    const ref = useNavigationContainerRef()
 
     const onLoginPressed = () => {
     axios.post(`${baseUrl}/it4788/auth/login?phonenumber=${phonenumber}&password=${password}`)

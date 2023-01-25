@@ -13,6 +13,8 @@ import SettingScreen from './screens/SettingScreen';
 import ProfileViewScreen from './screens/ProfileViewScreen';
 import FriendListScreen from './screens/FriendListScreen';
 import ChangePassScreen from './screens/ChangePassScreen';
+import SignIn from './screens/SignInScreen';
+import SignUp from './screens/SignUpScreen';
 
 const Stack = createStackNavigator()
 
@@ -52,7 +54,9 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{ headerShown: true }}
-          initialRouteName="Profile">
+          initialRouteName="SignIn">
+          <Stack.Screen name="SignIn" component={SignIn} />
+          <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Edit" component={EditScreen} />
           <Stack.Screen name="EditView" component={EditViewScreen} />

@@ -1,11 +1,13 @@
-import React, {useState} from 'react'
-import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Alert } from 'react-native'
 import CustomButton from './CustomButton'
 import CustomInput from './CustomInput'
 import Logo from '../assets/Facebook_f_logo_(2019).svg.png'
 import MyDatePicker from './DatePicker'
 import * as RootNavigation from '../navigation/RootNavigation'
+import { useNavigation } from '@react-navigation/native'
 
+const navigation = useNavigation()
 
 const SignUp = () => {
     const [firstName, setFirstName] = useState('');
@@ -16,21 +18,26 @@ const SignUp = () => {
     const [passwordRe, setPasswordRe] = useState('');
     const [secure, setSecure] = useState(true);
     const [selectedDate, setSelectedDate] = useState('');
-    const [open, setOpen] = useState(true);
 
     const axios = require('axios').default
     const baseUrl = 'https://91ed-2402-800-6173-d69d-9970-5275-891d-26df.ap.ngrok.io'
-    // const baseUrl = 'http://localhost:8080'
 
     const onRulePressed = () => {
 
     };
     const onReturnPressed = () => {
-        RootNavigation.navigate('SignIn')
+        navigation.navigate('SignIn')
     };
     const onNextPressed = () => {
         if (passwordRe != password) {
-            console.warn("Mật khẩu nhập lại không khớp!")
+            Alert.alert("Lỗi mật khẩu",
+            "Mật khẩu không khớp",
+            [
+                {
+                    text: "OK",
+                    style: 'cancel'
+                }
+            ])
         } else {
             axios.post(`${baseUrl}/it4788/auth/signup?name=${username}&password=${password}&phonenumber=${phoneNumber}&birthday=${selectedDate}`)
                 .then((response) => {
@@ -42,13 +49,13 @@ const SignUp = () => {
                 })
         }
     }
-    
+
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.header}>Đăng ký tài khoản</Text>
-            <Image 
-                source = {Logo} 
-                resizeMode = "contain"
+            <Image
+                source={Logo}
+                resizeMode="contain"
                 style={styles.logo}
             />
             <View style={styles.form}>
@@ -73,17 +80,17 @@ const SignUp = () => {
                     setValue={setPhoneNumber}
                 />
                 <View style={styles.password}>
-                    <CustomInput 
+                    <CustomInput
                         placeholder="Mật khẩu"
                         value={password}
                         setValue={setPassword}
                         secureTextEntry={secure}
                     />
                     <TouchableOpacity style={styles.visible} onPress={() => setSecure(!secure)}>
-                        {secure?
-                            <Image source={require('../assets/visible.jpg')} style={{width: '100%', height: '100%', color: '#E8E8E8'}} resizeMode='contain'/> 
+                        {secure ?
+                            <Image source={require('../assets/visible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
                             :
-                            <Image source={require('../assets/notvisible.jpg')} style={{width: '100%', height: '100%', color: '#E8E8E8'}} resizeMode='contain'/>
+                            <Image source={require('../assets/notvisible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
                         }
                     </TouchableOpacity>
                 </View>
@@ -94,10 +101,6 @@ const SignUp = () => {
                     secureTextEntry
                 />
             </View>
-<<<<<<< HEAD
-            <View>
-
-            </View>
             <View>
                 <Text style={styles.birthdayText}>Sinh nhật</Text>
                 <MyDatePicker
@@ -105,13 +108,6 @@ const SignUp = () => {
                     setSelectedDate={setSelectedDate}
                 />
             </View>
-=======
-            <Text style={styles.birthdayText}>Sinh nhật</Text>
-            <MyDatePicker
-                date={selectedDate}
-                setSelectedDate={setSelectedDate}
-            />
->>>>>>> 40435d3189ad598a04dbdc4c89b2a804b0031f19
             <View style={styles.rule}>
                 <Text style={styles.ruleText}>
                     Nhấn xác nhận đồng nghĩa với bạn đã đọc và đồng ý với{' '}
@@ -155,7 +151,7 @@ const styles = StyleSheet.create({
 
     },
     link: {
-        color: 'blue', 
+        color: 'blue',
         fontStyle: 'italic'
     },
     logo: {

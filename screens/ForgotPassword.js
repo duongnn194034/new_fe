@@ -1,15 +1,13 @@
 import React from "react"
 import { StyleSheet, View, SafeAreaView } from "react-native"
-import CustomInput from "./CustomInput"
+import CustomInput from "..components/CustomInput"
 
 const ForgotPassword = () => {
     return (
         <SafeAreaView>
             <Text style={styles.header}>ForgotPassword</Text>
             <View>
-                <CustomInput
-                
-                />
+                <CustomInput/>
             </View>
         </SafeAreaView>
     )

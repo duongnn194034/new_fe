@@ -9,7 +9,6 @@ import AppContext from '../context/AppContext'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import Separator from '../components/Separator'
-import SeparatorSmall from '../components/SeparatorSmall'
 import { BaseURL } from '../ultis/Constants'
 
 const MAX_IMAGE_SIZE = 4 * 1024 * 1024
