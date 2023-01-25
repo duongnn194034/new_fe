@@ -2,9 +2,8 @@ import React, {useState} from "react";
 import { Text, View, Image, StyleSheet, useWindowDimensions, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigationContainerRef } from "@react-navigation/native";
 import Logo from "../assets/images/Facebook_f_logo_(2019).svg.png";
-import CustomInput from "..components/CustomInput";
-import CustomButton from "..components/CustomButton";
-import * as RootNavigation from "../navigation/RootNavigation"
+import CustomInput from "../components/CustomInput";
+import CustomButton from "../components/CustomButton";
 
 
 const SignIn = () => {
