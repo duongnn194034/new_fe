@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Alert } from 'react-native'
 import CustomButton from './CustomButton'
 import CustomInput from './CustomInput'
-import Logo from '../assets/Facebook_f_logo_(2019).svg.png'
+import Logo from '../assets/images/Facebook_f_logo_(2019).svg.png'
 import MyDatePicker from './DatePicker'
 import * as RootNavigation from '../navigation/RootNavigation'
 import { useNavigation } from '@react-navigation/native'
@@ -10,8 +10,6 @@ import { useNavigation } from '@react-navigation/native'
 const navigation = useNavigation()
 
 const SignUp = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
@@ -59,16 +57,6 @@ const SignUp = () => {
                 style={styles.logo}
             />
             <View style={styles.form}>
-                <CustomInput
-                    placeholder="Tên"
-                    value={firstName}
-                    setValue={setFirstName}
-                />
-                <CustomInput
-                    placeholder="Họ"
-                    value={lastName}
-                    setValue={setLastName}
-                />
                 <CustomInput
                     placeholder="Tên đăng nhập"
                     value={username}
