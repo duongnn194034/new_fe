@@ -9,8 +9,6 @@ import { useNavigation } from '@react-navigation/native'
 const navigation = useNavigation()
 
 const SignUp = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
@@ -58,16 +56,6 @@ const SignUp = () => {
                 style={styles.logo}
             />
             <View style={styles.form}>
-                <CustomInput
-                    placeholder="Tên"
-                    value={firstName}
-                    setValue={setFirstName}
-                />
-                <CustomInput
-                    placeholder="Họ"
-                    value={lastName}
-                    setValue={setLastName}
-                />
                 <CustomInput
                     placeholder="Tên đăng nhập"
                     value={username}
