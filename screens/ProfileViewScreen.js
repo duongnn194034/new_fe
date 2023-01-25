@@ -1,7 +1,7 @@
 import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 
 import AppContext from '../context/AppContext'
 
@@ -10,13 +10,33 @@ import Separator from '../components/Separator'
 import SeparatorSmall from '../components/SeparatorSmall'
 import { BaseURL } from '../ultis/Constants'
 
+
+
 const ProfileViewScreen = ({ route }) => {
     const navigation = useNavigation();
     const appContext = useContext(AppContext);
 
     const { id, avatar, name } = route.params.item
-    const [friend, setFriend] = useState('not friend')
+    const [friend, setFriend] = useState(0)
     const [block, setBlock] = useState(0)
+    const [friendState, setFriendState] = useState("Bạn bè")
+
+    useEffect(() => {
+        if (friend == 0) {
+            setFriendState("Thêm bạn bè")
+        }
+        if (friend == 2 || friend == 1) {
+            setFriendState("Hủy yêu cầu")
+        }
+    }, [friend])
+    const checkFriend = (friend) => {
+        if (friend == 0) {
+            setFriend(1)
+        }
+        if (friend == 2 || friend == 1) {
+            setFriend(0)
+        }
+    }
 
     const blockUser = async () => {
         // api call
@@ -39,7 +59,7 @@ const ProfileViewScreen = ({ route }) => {
             [
                 {
                     text: 'Yes',
-                    onPress: { blockUser },
+                    onPress: () => blockUser,
                 },
                 {
                     text: 'Cancel',
@@ -106,7 +126,7 @@ const ProfileViewScreen = ({ route }) => {
                 onPress={() => navigation.navigate("ProfileView", { item })}
                 style={{ alignItems: "center", marginHorizontal: 5 }}>
                 <Image
-                    source={assets.avatar}
+                    source={item.avatar}
                     style={{
                         width: 30,
                         height: 30,
@@ -147,7 +167,7 @@ const ProfileViewScreen = ({ route }) => {
                     <Text style={{ fontFamily: FONTS.semiBold, fontSize: SIZES.extraLarge, marginTop: 10, }}>{name}</Text>
                     <View style={{ width: "100%", height: 60, flexDirection: "row" }}>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("Edit")}
+                            onPress={() => checkFriend(friend)}
                             style={{
                                 flex: 4,
                                 flexDirection: 'row',
@@ -168,7 +188,7 @@ const ProfileViewScreen = ({ route }) => {
                                     margin: 2
                                 }}
                             />
-                            <Text style={{ color: "white", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>Bạn bè</Text>
+                            <Text style={{ color: "white", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>{friendState}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
