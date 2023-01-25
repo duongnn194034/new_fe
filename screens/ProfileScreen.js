@@ -1,19 +1,94 @@
-import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, FlatList } from 'react-native'
+import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
+import * as ImagePicker from 'expo-image-picker';
+const FormData = require('form-data')
 
 import AppContext from '../context/AppContext'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import Separator from '../components/Separator'
 import SeparatorSmall from '../components/SeparatorSmall'
+import { BaseURL } from '../ultis/Constants'
 
-const BaseURL2 = "https://6f39-2001-ee0-4914-f780-2491-e240-5ebe-b8bb.ap.ngrok.io/it4788/auth"
+const MAX_IMAGE_SIZE = 4 * 1024 * 1024
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
     const appContext = useContext(AppContext);
+
+    const [image, setImage] = useState(assets.avatar);
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [16, 9],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            if (result.assets[0].fileSize > MAX_IMAGE_SIZE) {
+                Alert.alert(
+                    "Alert: This image file is too big",
+                    "Only accept image under 4MB in size",
+                    {
+                        text: "OK",
+                        type: "cancel"
+                    }
+                )
+
+                return
+            }
+            setImage(result.assets);
+
+            console.log(result.assets[0])
+
+            const type = /\.(\w+)$/.exec(result.assets[0].uri)
+            console.log(/\.(\w+)$/.exec(result.assets[0].uri))
+
+            let formdata = new FormData();
+            formdata.append("image", {
+                name: "avatar",
+                type: "image/" + type[1],
+                uri: result.assets[0].uri
+            });
+
+            const res = await axios.post(
+                `${BaseURL}/post/add_post`,
+                formdata,
+                {
+                    params: {
+                        described: "axios post",
+                        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYzU2MWQ3NDhkNzgxMzEyY2QzYzA2NCIsImRhdGVMb2dpbiI6IjIwMjMtMDEtMjJUMTU6MzE6MjUuNTg2WiIsImlhdCI6MTY3NDQwMTQ4NSwiZXhwIjoxNjc0NDg3ODg1fQ.Bsy1YfcqnG2HThEtMQByvr7mTCwr3RWFepbBtq0QxDM",
+                        status: "được yêu"
+                    },
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                }
+            )
+            console.log(res)
+        }
+    };
+
+    console.log("===============================================================================================================================================================")
+
+    const getFriends = async () => {
+        const res = await axios.post(
+            `${BaseURL}/friend/get_user_friends`,
+            {},
+            {
+                params: {
+                    token: appContext.loginState.token,
+                    index: 0,
+                    count: 6
+                }
+            }
+        )
+
+        console.log(JSON.stringify(res.data.data.friends))
+    }
 
     const DATA = [
         {
@@ -33,37 +108,50 @@ const ProfileScreen = () => {
         },
         {
             id: "4",
-            avatar: assets.zoro_avatar,
-            name: "Zoro",
+            avatar: assets.robin_avatar,
+            name: "Robin",
         },
         {
             id: "5",
-            avatar: assets.nami_avatar,
-            name: "Nami",
+            avatar: assets.chopper,
+            name: "Choppr",
         },
         {
             id: "6",
-            avatar: assets.sanji_avatar,
-            name: "Sanji",
+            avatar: assets.franky,
+            name: "Franky",
+        },
+        {
+            id: "7",
+            avatar: assets.brook,
+            name: "Brook",
+        },
+        {
+            id: "8",
+            avatar: assets.usopp_avatar,
+            name: "Usopp",
+        },
+        {
+            id: "9",
+            avatar: assets.jimbei,
+            name: "Jimbei",
         },
     ]
 
     const Item = ({ item }) => {
         return (
             <TouchableOpacity
-                onPress={() => navigation.navigate("ProfileView", {
-                    item
-                })}
-                style={{ flexDirection: 'column', alignItems: "center", marginHorizontal: 5 }}>
+                onPress={() => navigation.navigate("ProfileView", { item })}
+                style={{ alignItems: "center", marginHorizontal: 5 }}>
                 <Image
                     source={item.avatar}
                     style={{
-                        width: 60,
-                        height: 60,
+                        width: 30,
+                        height: 30,
                         borderRadius: 100,
+                        marginLeft: item.id === "1" ? 0 : -20,
                     }}
                 />
-                <Text style={{ marginTop: 10 }}>{item.name}</Text>
             </TouchableOpacity>
         )
     }
@@ -71,7 +159,7 @@ const ProfileScreen = () => {
     const axiosTest = async () => {
         try {
             const res = await axios.post(
-                `${BaseURL2}/login`,
+                `${BaseURL}/login`,
                 {},
                 {
                     params: {
@@ -98,7 +186,6 @@ const ProfileScreen = () => {
     }
 
     return (
-
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView>
                 <View style={{
@@ -119,7 +206,7 @@ const ProfileScreen = () => {
                             justifyContent: "center"
                         }}>
                         <Image
-                            source={assets.avatar}
+                            source={image}
                             resizeMode="cover"
                             style={{ width: 160, height: 160, alignSelf: "center", borderRadius: 300, }} />
                     </View>
@@ -160,140 +247,86 @@ const ProfileScreen = () => {
                 <Separator />
 
                 <View>
-                    <View style={{
-                        backgroundColor: "#DDDDDD",
-                        width: 100,
-                        height: 36,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 10,
-                        marginBottom: 0,
-                        borderRadius: 24,
-                    }}>
-                        <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.font }}>Giới thiệu</Text>
-                    </View>
-
-                    <SeparatorSmall />
-
-                    <View>
-                        <View style={{ flexDirection: 'row', margin: 10, alignItems: "center", marginLeft: 20 }}>
-                            <Image
-                                source={assets.work}
-                                resizeMode="contain"
-                                style={{
-                                    tintColor: "#777777",
-                                    width: 24,
-                                    height: 24,
-                                }} />
-                            <Text style={{ marginLeft: 10, fontSize: SIZES.medium }}>Đang làm việc tại TruePlatform</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', margin: 10, alignItems: "center", marginLeft: 20 }}>
-                            <Image
-                                source={assets.livein}
-                                resizeMode="contain"
-                                style={{
-                                    tintColor: "#777777",
-                                    width: 24,
-                                    height: 24,
-                                }} />
-                            <Text style={{ marginLeft: 10, fontSize: SIZES.medium }}>Đến từ Hưng Yên</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', margin: 10, alignItems: "center", marginLeft: 20 }}>
-                            <Image
-                                source={assets.status}
-                                resizeMode="contain"
-                                style={{
-                                    tintColor: "#777777",
-                                    width: 24,
-                                    height: 24,
-                                }} />
-                            <Text style={{ marginLeft: 10, fontSize: SIZES.medium }}>Độc thân</Text>
-                        </View>
-                    </View>
-                    <Separator />
-
-                    <View>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
                         <View style={{
-                            backgroundColor: "#DDDDDD",
                             width: 100,
                             height: 36,
+                            justifyContent: "center",
+                            margin: 10,
+                            marginBottom: 0,
+                            borderRadius: 24,
+                        }}>
+                            <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.medium }}>Giới thiệu</Text>
+                        </View>
+                        <TouchableOpacity style={{
                             alignItems: "center",
                             justifyContent: "center",
                             margin: 10,
-                            marginBottom: 10,
+                            marginBottom: 0,
                             borderRadius: 24,
                         }}>
-                            <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.font }}>Bạn bè</Text>
+                            <Text style={{ fontFamily: FONTS.regular, fontSize: SIZES.medium, alignSelf: "center", color: "#BBBBBB" }}>Xem thông tin giới thiệu {'>'}</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    <Separator />
+                    <View>
+                        <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between" }}>
+                            <View style={{
+                                height: 36,
+                                justifyContent: "center",
+                                margin: 10,
+                                borderRadius: 24,
+                            }}>
+                                <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.medium }}>Bạn bè</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', width: 250, direction: "rtl", margin: 10 }}>
+                                <FlatList
+                                    data={DATA}
+                                    renderItem={({ item }) => <Item item={item} />}
+                                    horizontal={true}
+                                    keyExtractor={item => item.id}
+                                />
+                            </View>
                         </View>
-                        <View style={{ flexDirection: 'row', width: "100%" }}>
-                            <FlatList style={{ flex: 1 }}
-                                data={DATA}
-                                renderItem={({ item }) => <Item item={item} />}
-                                horizontal={true}
-                                keyExtractor={item => item.id}
-                            />
-                        </View>
+
                         <TouchableOpacity
                             onPress={() => navigation.navigate("FriendList", DATA)}
                             style={{
                                 backgroundColor: "#DDDDDD",
                                 height: 40,
-                                margin: 10,
+                                marginHorizontal: 10,
                                 borderRadius: 8,
                                 alignItems: "center",
                                 justifyContent: "center"
-
                             }}>
                             <Text style={{ color: "black", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>Xem tất cả bạn bè</Text>
                         </TouchableOpacity>
                     </View>
-
                     <Separator />
                 </View>
                 <View>
-                    <View style={{
-                        backgroundColor: "#DDDDDD",
-                        width: 100,
-                        height: 36,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 10,
-                        marginBottom: 0,
-                        borderRadius: 24,
-                    }}>
-                        <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.font }}>Bài viết</Text>
-                    </View>
-
-                    <SeparatorSmall />
-                    <View style={{ flexDirection: 'row', alignItems: "center" }}>
-                        <Image
-                            source={assets.avatar}
-                            style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: 200,
-                                margin: 10,
-                            }}
-                        />
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate("Setting")}
-                            style={{
-                                width: 300,
-                                height: 36,
-                                borderRadius: 20,
-                                justifyContent: "center",
-                                borderWidth: 1,
-                                borderColor: "#AAAAAA",
-                            }}>
-                            <View
-                                style={{
-                                    marginStart: 15
-                                }}>
-                                <Text style={{ color: "#AAAAAA" }}>Say something</Text>
-                            </View>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
+                        <View style={{
+                            width: 100,
+                            height: 36,
+                            justifyContent: "center",
+                            margin: 10,
+                            marginBottom: 0,
+                            borderRadius: 24,
+                        }}>
+                            <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.medium }}>Bài viết</Text>
+                        </View>
+                        <TouchableOpacity style={{
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: 10,
+                            marginBottom: 0,
+                            borderRadius: 24,
+                        }}>
+                            <Text style={{ fontFamily: FONTS.regular, fontSize: SIZES.medium, alignSelf: "center", color: "#BBBBBB" }}>Thêm bài viết {'>'}</Text>
                         </TouchableOpacity>
+
                     </View>
                     <Separator />
                 </View>

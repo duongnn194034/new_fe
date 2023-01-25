@@ -5,22 +5,43 @@ export const reducer = (state, action) => {
                 ...state,
                 user_id: action.user_id,
                 token: action.token,
-                username: action.username
+                username: action.username,
+                description: action.description,
+                address: action.address,
+                city: action.city,
+                country: action.city,
+                link: action.link,
+                birthday: action.birthday,
+                avatar: action.avatar,
+                coverImg: action.coverImg
             }
         case 'LOGOUT': {
             return {
                 ...state,
                 user_id: null,
                 token: null,
-                username: null
+                username: null, 
+                description: null,
+                address: null,
+                city: null,
+                country: null,
+                link: null,
+                birthday: null,
+                avatar: null,
+                coverImg: null
             }
         }
         case 'CHANG_USER_NAME': {
             return {
                 ...state,
-                user_id: action.user_id,
-                token: action.token,
                 username: action.username
+            }
+        }
+        case 'CHANG_AVATAR': {
+            return {
+                ...state,
+                avatar: action.avatar,
+                coverImg: action.coverImg
             }
         }
 

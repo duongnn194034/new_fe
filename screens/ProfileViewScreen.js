@@ -1,21 +1,71 @@
-import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, FlatList } from 'react-native'
+import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 import AppContext from '../context/AppContext'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import Separator from '../components/Separator'
 import SeparatorSmall from '../components/SeparatorSmall'
-
-const BaseURL2 = "https://6f39-2001-ee0-4914-f780-2491-e240-5ebe-b8bb.ap.ngrok.io/it4788/auth"
+import { BaseURL } from '../ultis/Constants'
 
 const ProfileViewScreen = ({ route }) => {
-    const { id, avatar, name } = route.params.item
-
     const navigation = useNavigation();
     const appContext = useContext(AppContext);
+
+    const { id, avatar, name } = route.params.item
+    const [friend, setFriend] = useState('not friend')
+    const [block, setBlock] = useState(0)
+
+    const blockUser = async () => {
+        // api call
+        const res = await axios.post(
+            `${BaseURL}/friend/set_block`,
+            {},
+            {
+                params: {
+                    token: appContext.loginState.token,
+                    user_id: id,
+                    type: block
+                }
+            }
+        )
+        console.log(res)
+    }
+
+    const blockAlert = () => {
+        Alert.alert('Block Alert', 'Do you want to block/unblock this user?',
+        [
+            {
+                text: 'Yes',
+                onPress: {blockUser},
+            },
+            {
+                text: 'Cancel',
+                style: 'cancel'
+            }
+        ])
+    }
+
+    const getFriends = async () => {
+        const res = await axios.post(
+            `${BaseURL}/friend/get_user_friends`,
+            {},
+            {
+                params: {
+                    token: appContext.loginState.token,
+                    user_id: id,
+                    index: 0,
+                    count: 10
+                }
+            }
+        )
+
+        console.log(JSON.stringify(res.data.data.friends))
+
+        return res;
+    }
 
     const DATA = [
         {
@@ -53,19 +103,17 @@ const ProfileViewScreen = ({ route }) => {
     const Item = ({ item }) => {
         return (
             <TouchableOpacity
-                onPress={() => navigation.navigate("ProfileView", {
-                    item
-                })}
-                style={{ flexDirection: 'column', alignItems: "center", marginHorizontal: 5 }}>
+                onPress={() => navigation.navigate("ProfileView", { item })}
+                style={{ alignItems: "center", marginHorizontal: 5 }}>
                 <Image
-                    source={item.avatar}
+                    source={assets.avatar}
                     style={{
-                        width: 60,
-                        height: 60,
+                        width: 30,
+                        height: 30,
                         borderRadius: 100,
+                        marginLeft: item.id === "1" ? 0 : -20,
                     }}
                 />
-                <Text style={{ marginTop: 10 }}>{item.name}</Text>
             </TouchableOpacity>
         )
     }
@@ -101,9 +149,9 @@ const ProfileViewScreen = ({ route }) => {
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Edit")}
                             style={{
-                                flex: 1,
+                                flex: 4,
                                 flexDirection: 'row',
-                                backgroundColor: "#dddddd",
+                                backgroundColor: "#1877f2",
                                 height: 40,
                                 margin: 10,
                                 borderRadius: 8,
@@ -111,16 +159,16 @@ const ProfileViewScreen = ({ route }) => {
                                 justifyContent: "center"
 
                             }}>
-                                <Image 
+                            <Image
                                 source={assets.friend_ic}
                                 style={{
                                     width: 28,
                                     height: 28,
-                                    tintColor: "black",
+                                    tintColor: "white",
                                     margin: 2
                                 }}
-                                />
-                            <Text style={{ color: "black", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>Bạn bè</Text>
+                            />
+                            <Text style={{ color: "white", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>Bạn bè</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -128,7 +176,7 @@ const ProfileViewScreen = ({ route }) => {
                             style={{
                                 flex: 1,
                                 flexDirection: 'row',
-                                backgroundColor: "#1877f2",
+                                backgroundColor: "#dddddd",
                                 height: 40,
                                 marginVertical: 10,
                                 marginRight: 10,
@@ -137,15 +185,29 @@ const ProfileViewScreen = ({ route }) => {
                                 justifyContent: "center"
                             }}>
                             <Image
-                            source={assets.mess_ic}
-                            style={{
-                                width: 24,
-                                height: 24,
-                                tintColor: "white",
-                                margin: 2
-                            }}
+                                source={assets.mess_ic}
+                                style={{
+                                    width: 24,
+                                    height: 24,
+                                    tintColor: "black",
+                                    margin: 2
+                                }}
                             />
-                            <Text style={{ color: "white", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>Nhắn tin</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={blockAlert}
+                            style={{
+                                flex: 1,
+                                flexDirection: 'row',
+                                backgroundColor: "#dddddd",
+                                height: 40,
+                                marginVertical: 10,
+                                marginRight: 10,
+                                borderRadius: 8,
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}>
+                            <Text style={{ color: "black", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>...</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -153,140 +215,88 @@ const ProfileViewScreen = ({ route }) => {
                 <Separator />
 
                 <View>
-                    <View style={{
-                        backgroundColor: "#DDDDDD",
-                        width: 100,
-                        height: 36,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 10,
-                        marginBottom: 0,
-                        borderRadius: 24,
-                    }}>
-                        <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.font }}>Giới thiệu</Text>
-                    </View>
-
-                    <SeparatorSmall />
-
-                    <View>
-                        <View style={{ flexDirection: 'row', margin: 10, alignItems: "center", marginLeft: 20 }}>
-                            <Image
-                                source={assets.work}
-                                resizeMode="contain"
-                                style={{
-                                    tintColor: "#777777",
-                                    width: 24,
-                                    height: 24,
-                                }} />
-                            <Text style={{ marginLeft: 10, fontSize: SIZES.medium }}>Đang làm việc tại TruePlatform</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', margin: 10, alignItems: "center", marginLeft: 20 }}>
-                            <Image
-                                source={assets.livein}
-                                resizeMode="contain"
-                                style={{
-                                    tintColor: "#777777",
-                                    width: 24,
-                                    height: 24,
-                                }} />
-                            <Text style={{ marginLeft: 10, fontSize: SIZES.medium }}>Đến từ Hưng Yên</Text>
-                        </View>
-
-                        <View style={{ flexDirection: 'row', margin: 10, alignItems: "center", marginLeft: 20 }}>
-                            <Image
-                                source={assets.status}
-                                resizeMode="contain"
-                                style={{
-                                    tintColor: "#777777",
-                                    width: 24,
-                                    height: 24,
-                                }} />
-                            <Text style={{ marginLeft: 10, fontSize: SIZES.medium }}>Độc thân</Text>
-                        </View>
-                    </View>
-                    <Separator />
-
-                    <View>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
                         <View style={{
-                            backgroundColor: "#DDDDDD",
                             width: 100,
                             height: 36,
-                            alignItems: "center",
                             justifyContent: "center",
                             margin: 10,
-                            marginBottom: 10,
+                            marginBottom: 0,
                             borderRadius: 24,
                         }}>
-                            <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.font }}>Bạn bè</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', width: "100%" }}>
-                            <FlatList style={{ flex: 1 }}
-                                data={DATA}
-                                renderItem={({ item }) => <Item item={item} />}
-                                horizontal={true}
-                                keyExtractor={item => item.id}
-                            />
+                            <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.medium }}>Giới thiệu</Text>
                         </View>
                         <TouchableOpacity
+                            onPress={() => navigation.navigate("EditView")}
                             style={{
-                                flex: 5,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                margin: 10,
+                                marginBottom: 0,
+                                borderRadius: 24,
+                            }}>
+                            <Text style={{ fontFamily: FONTS.regular, fontSize: SIZES.medium, alignSelf: "center", color: "#BBBBBB" }}>Xem thông tin giới thiệu {'>'}</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    <Separator />
+                    <View>
+                        <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "space-between" }}>
+                            <View style={{
+                                height: 36,
+                                justifyContent: "center",
+                                margin: 10,
+                                borderRadius: 24,
+                            }}>
+                                <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.medium }}>Bạn bè</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', width: 250, direction: "rtl", margin: 10 }}>
+                                <FlatList
+                                    data={DATA}
+                                    renderItem={({ item }) => <Item item={item} />}
+                                    horizontal={true}
+                                    keyExtractor={item => item.id}
+                                />
+                            </View>
+                        </View>
+
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate("FriendList", DATA)}
+                            style={{
                                 backgroundColor: "#DDDDDD",
                                 height: 40,
-                                margin: 10,
+                                marginHorizontal: 10,
                                 borderRadius: 8,
                                 alignItems: "center",
                                 justifyContent: "center"
-
                             }}>
                             <Text style={{ color: "black", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>Xem tất cả bạn bè</Text>
                         </TouchableOpacity>
                     </View>
-
                     <Separator />
                 </View>
                 <View>
-                    <View style={{
-                        backgroundColor: "#DDDDDD",
-                        width: 100,
-                        height: 36,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: 10,
-                        marginBottom: 0,
-                        borderRadius: 24,
-                    }}>
-                        <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.font }}>Bài viết</Text>
-                    </View>
-
-                    <SeparatorSmall />
-                    <View style={{ flexDirection: 'row', alignItems: "center" }}>
-                        <Image
-                            source={assets.avatar}
-                            style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: 200,
-                                margin: 10,
-                            }}
-                        />
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate("Setting")}
-                            style={{
-                                width: 300,
-                                height: 36,
-                                borderRadius: 20,
-                                justifyContent: "center",
-                                borderWidth: 1,
-                                borderColor: "#AAAAAA",
-                            }}>
-                            <View
-                                style={{
-                                    marginStart: 15
-                                }}>
-                                <Text style={{ color: "#AAAAAA" }}>Say something</Text>
-                            </View>
+                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
+                        <View style={{
+                            width: 100,
+                            height: 36,
+                            justifyContent: "center",
+                            margin: 10,
+                            marginBottom: 0,
+                            borderRadius: 24,
+                        }}>
+                            <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.medium }}>Bài viết</Text>
+                        </View>
+                        <TouchableOpacity style={{
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: 10,
+                            marginBottom: 0,
+                            borderRadius: 24,
+                        }}>
+                            <Text style={{ fontFamily: FONTS.regular, fontSize: SIZES.medium, alignSelf: "center", color: "#BBBBBB" }}>Thêm bài viết {'>'}</Text>
                         </TouchableOpacity>
+
                     </View>
                     <Separator />
                 </View>

@@ -13,7 +13,8 @@ const SettingScreen = () => {
     const appContext = useContext(AppContext);
 
     let token = appContext.loginState.token;
-    const logout = async () => {
+
+    const logout = async (token) => {
         try {
             const res = await axios.post(
                 `${BaseURL}/auth/logout`,
@@ -48,7 +49,7 @@ const SettingScreen = () => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView>
                 <TouchableOpacity
                     onPress={() => navigation.navigate("ChangePass")}
@@ -61,26 +62,11 @@ const SettingScreen = () => {
                         justifyContent: "center",
                         borderRadius: 8,
                         marginVertical: 10,
+                        marginTop: 20,
                         backgroundColor: "white",
-                        ...SHADOWS.medium
+                        ...SHADOWS.dark
                     }}>
                     <Text style={{ fontFamily: FONTS.bold, fontSize: SIZES.medium }}>Đổi mật khẩu</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                onPress={() => navigation.navigate("ChangeName")}
-                    style={{
-                        width: "90%",
-                        height: 48,
-                        backgroundColor: "#DDDDDD",
-                        alignSelf: "center",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: 8,
-                        marginVertical: 10,
-                        backgroundColor: "white",
-                        ...SHADOWS.medium
-                    }}>
-                    <Text style={{ fontFamily: FONTS.bold, fontSize: SIZES.medium }}>Đổi tên hiển thị</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={logoutButton}
@@ -94,7 +80,7 @@ const SettingScreen = () => {
                         borderRadius: 8,
                         marginVertical: 10,
                         backgroundColor: "white",
-                        ...SHADOWS.medium
+                        ...SHADOWS.dark
                     }}>
                     <Text style={{ fontFamily: FONTS.bold, fontSize: SIZES.medium }}>Đăng xuất</Text>
                 </TouchableOpacity>

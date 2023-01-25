@@ -8,11 +8,11 @@ import AppContext from './context/AppContext'
 
 import ProfileScreen from './screens/ProfileScreen';
 import EditScreen from './screens/EditScreen';
+import EditViewScreen from './screens/EditViewScreen';
 import SettingScreen from './screens/SettingScreen';
 import ProfileViewScreen from './screens/ProfileViewScreen';
 import FriendListScreen from './screens/FriendListScreen';
 import ChangePassScreen from './screens/ChangePassScreen';
-import ChangeNameScreen from './screens/ChangeNameScreen';
 
 const Stack = createStackNavigator()
 
@@ -21,6 +21,15 @@ export default function App() {
     token: null,
     user_id: null,
     isLoading: false,
+    username: null,
+    description: null,
+    address: null,
+    city: null,
+    country: null,
+    link: null,
+    birthday: null,
+    avatar: null,
+    coverImg: null
   }
 
   const [loginState, dispatch] = useReducer(reducer, initLoginState);
@@ -42,15 +51,16 @@ export default function App() {
   return (
     <AppContext.Provider value={appContext}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: true }}
+        <Stack.Navigator
+          screenOptions={{ headerShown: true }}
           initialRouteName="Profile">
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Edit" component={EditScreen} />
+          <Stack.Screen name="EditView" component={EditViewScreen} />
           <Stack.Screen name="Setting" component={SettingScreen} />
           <Stack.Screen name="ProfileView" component={ProfileViewScreen} />
           <Stack.Screen name="FriendList" component={FriendListScreen} />
           <Stack.Screen name="ChangePass" component={ChangePassScreen} />
-          <Stack.Screen name="ChangeName" component={ChangeNameScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppContext.Provider>

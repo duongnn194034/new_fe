@@ -12,6 +12,14 @@ const FriendListScreen = ({ route }) => {
 
     const friend_data = route.params
 
+    if(JSON.stringify(friend_data) == JSON.stringify([])) {
+        return (
+            <SafeAreaView style={{ flex: 1, alignItems: "center", justifyContent: "center"}}>
+                <Text style={{ fontFamily: FONTS.regular, fontSize: SIZES.large}}>No friend to show</Text>
+            </SafeAreaView>
+        )
+    }
+
     const FriendItem = ({ item }) => {
         return (
             <TouchableOpacity
