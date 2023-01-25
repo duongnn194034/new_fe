@@ -36,16 +36,16 @@ const ProfileViewScreen = ({ route }) => {
 
     const blockAlert = () => {
         Alert.alert('Block Alert', 'Do you want to block/unblock this user?',
-        [
-            {
-                text: 'Yes',
-                onPress: {blockUser},
-            },
-            {
-                text: 'Cancel',
-                style: 'cancel'
-            }
-        ])
+            [
+                {
+                    text: 'Yes',
+                    onPress: { blockUser },
+                },
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                }
+            ])
     }
 
     const getFriends = async () => {

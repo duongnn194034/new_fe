@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { responsiveFontSize, responsiveHeight } from "react-native-responsive-dimensions";
 
-const ActiveUsers = ({name, profile, navigation}) => {
+const ActiveUsers = ({ name, profile, navigation }) => {
 
     const onPressHanlder = () => {
         navigation.navigate('ChatView')
@@ -12,7 +12,6 @@ const ActiveUsers = ({name, profile, navigation}) => {
         <TouchableOpacity onPress={onPressHanlder} activeOpacity={0.7} style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image style={styles.image} source={{ uri: profile }} />
-                {/* <View style={styles.activeStatus} /> */}
             </View>
             <Text style={styles.name}>{name}</Text>
         </TouchableOpacity>

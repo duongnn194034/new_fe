@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import ActiveUsers from "../components/ActiveUsers";
 
-const Users = ({navigation}) => {
+const Users = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
@@ -31,8 +31,8 @@ const Users = ({navigation}) => {
 export default Users
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
+    container: {
+        flex: 1,
         padding: 10
     }
 })

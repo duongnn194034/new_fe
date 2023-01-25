@@ -20,7 +20,6 @@ export default function App() {
   const initLoginState = {
     token: null,
     user_id: null,
-    isLoading: false,
     username: null,
     description: null,
     address: null,

@@ -9,8 +9,8 @@ const ChatView = () => {
 
     return (
         <View style={styles.container}>
-            <ScrollView contentContainerStyle={{flexGrow: 1}} style={styles.chatView}>
-                <View style={{flex: 1}}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.chatView}>
+                <View style={{ flex: 1 }}>
                     <ReceivedMessage
                         picture='https://i.imgur.com/6oU7JoG.jpg'
                         msg="Hello There"
@@ -25,7 +25,7 @@ const ChatView = () => {
                     <SendMessage
                         msg="I'm Great. Thank u. And u?"
                     />
-                    
+
                 </View>
             </ScrollView>
             <View style={styles.inputContainer}>
@@ -45,41 +45,41 @@ const ChatView = () => {
 export default ChatView
 
 const styles = StyleSheet.create({
-    container : {
-        backgroundColor : 'white',
+    container: {
+        backgroundColor: 'white',
         flex: 1,
     },
-    chatContainer : {
+    chatContainer: {
 
     },
-    inputContainer : {
-        height : responsiveHeight(7),
-        flexDirection : 'row',
-        alignItems : 'center',
-        shadowOffset : { width : 2, height : 2 },
-        shadowColor : 'black',
-        shadowOpacity : 0.5,
-        shadowRadius : 20,
-        elevation : 3,
+    inputContainer: {
+        height: responsiveHeight(7),
+        flexDirection: 'row',
+        alignItems: 'center',
+        shadowOffset: { width: 2, height: 2 },
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        shadowRadius: 20,
+        elevation: 3,
         paddingLeft: 10
     },
-    input : {
-        flex : 1,
-        fontSize : responsiveFontSize(1.8)
+    input: {
+        flex: 1,
+        fontSize: responsiveFontSize(1.8)
     },
-    sendMsgContainer : {
-        width : '86%',
-        backgroundColor : 'rgba(211,211,211,0.5)',
-        borderRadius : 20,
-        flexDirection : 'row',
-        alignItems : 'center',
-        paddingHorizontal : 10,
-        height : '70%'
+    sendMsgContainer: {
+        width: '86%',
+        backgroundColor: 'rgba(211,211,211,0.5)',
+        borderRadius: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        height: '70%'
     },
-    icon : {
-        padding : 5,
-        width : '12%',
-        justifyContent : 'center',
-        alignItems : 'center'
+    icon: {
+        padding: 5,
+        width: '12%',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
