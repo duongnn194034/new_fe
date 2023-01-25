@@ -71,6 +71,9 @@ const EditScreen = () => {
                         country: country,
                         link: link,
                         birthday: birthday
+                    },
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
                     }
                 }
             )

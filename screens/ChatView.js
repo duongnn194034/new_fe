@@ -23,7 +23,7 @@ const ChatView = () => {
                         msg="How are you?"
                     />
                     <SendMessage
-                        msg="I'm Great. Thank u. And u?"
+                        msg="I'm Great. Thank u. And you?"
                     />
 
                 </View>
