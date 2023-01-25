@@ -10,4 +10,4 @@ export const FEMALE = "female";
 export const NO_GENDER = "secret";
 
 // server:
-export const BaseURL = "http://localhost:8080/"
+export const BaseURL = "https://7952-2001-ee0-4914-f780-7b1f-988f-3179-63fd.ap.ngrok.io"

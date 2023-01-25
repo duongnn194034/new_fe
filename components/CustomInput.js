@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         paddingHorizontal: 10,
-        paddingTop: 10,
         marginVertical: 5,
-        marginLeft: '5%'
+        marginLeft: '5%',
+        justifyContent: "center"
     },
     input: {
-        fontSize: 17
+        fontSize: 16,
     }
 });
 

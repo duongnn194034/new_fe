@@ -53,11 +53,11 @@ export default function App() {
     <AppContext.Provider value={appContext}>
       <NavigationContainer>
         <Stack.Navigator
-          screenOptions={{ headerShown: true }}
+          // screenOptions={{ headerShown: false }}
           initialRouteName="SignIn">
-          <Stack.Screen name="SignIn" component={SignIn} />
+          <Stack.Screen name="SignIn" component={SignIn} screenOptions={{ headerShown: false }} />
           <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} screenOptions={{ headerShown: true }}/>
           <Stack.Screen name="Edit" component={EditScreen} />
           <Stack.Screen name="EditView" component={EditViewScreen} />
           <Stack.Screen name="Setting" component={SettingScreen} />

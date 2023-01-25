@@ -40,15 +40,4 @@ const styles = StyleSheet.create({
         fontSize: responsiveFontSize(1.8),
         fontWeight: 'bold'
     },
-    // activeStatus: {
-    //     position: 'absolute',
-    //     width: responsiveHeight(2),
-    //     height: responsiveHeight(2),
-    //     backgroundColor: '#03C003',
-    //     bottom: -2,
-    //     right: -2,
-    //     borderRadius: 200,
-    //     borderColor: 'white',
-    //     borderWidth: 2
-    // }
 })

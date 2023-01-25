@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Alert } from 'react-native'
 import CustomButton from '../components/CustomButton'
 import CustomInput from '../components/CustomInput'
-import Logo from '../assets/images/facebook_logo'
-import MyDatePicker from './DatePicker'
+import Logo from '../assets/images/facebook_logo.png'
+import MyDatePicker from '../components/DatePicker'
 import { useNavigation } from '@react-navigation/native'
 
-const navigation = useNavigation()
-
 const SignUp = () => {
+    const navigation = useNavigation()
+
     const [username, setUsername] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
@@ -28,13 +28,13 @@ const SignUp = () => {
     const onNextPressed = () => {
         if (passwordRe != password) {
             Alert.alert("Lỗi mật khẩu",
-            "Mật khẩu không khớp",
-            [
-                {
-                    text: "OK",
-                    style: 'cancel'
-                }
-            ])
+                "Mật khẩu không khớp",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ])
         } else {
             axios.post(`${baseUrl}/it4788/auth/signup?name=${username}&password=${password}&phonenumber=${phoneNumber}&birthday=${selectedDate}`)
                 .then((response) => {
@@ -75,9 +75,9 @@ const SignUp = () => {
                     />
                     <TouchableOpacity style={styles.visible} onPress={() => setSecure(!secure)}>
                         {secure ?
-                            <Image source={require('../assets/visible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
+                            <Image source={require('../assets/icons/visible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
                             :
-                            <Image source={require('../assets/notvisible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
+                            <Image source={require('../assets/icons/notvisible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
                         }
                     </TouchableOpacity>
                 </View>
@@ -149,7 +149,8 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     form: {
-        marginTop: '10%'
+        marginTop: '10%',
+        justifyContent: "center"
     },
     naviButton: {
         flexDirection: 'row',

@@ -4,9 +4,6 @@ import { Ionicons } from '@expo/vector-icons'
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import Chat from "../components/Chat";
 
-// import ActiveUserOnHome from "../components/ActiveUserOnHome";
-// import CreateRoom from "../components/CreateRoom";
-
 const HomeChat = ({ navigation }) => {
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={styles.container}>
@@ -16,18 +13,6 @@ const HomeChat = ({ navigation }) => {
                 </View>
                 <TextInput style={styles.search} placeholder='Search' />
             </View>
-            {/* <View style={styles.activeUsersContainer}>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{marginVertical: 10}}>
-                    <CreateRoom />
-                    <ActiveUserOnHome  />
-                    <ActiveUserOnHome  />
-                    <ActiveUserOnHome  />
-                    <ActiveUserOnHome  />
-                    <ActiveUserOnHome  />
-                    <ActiveUserOnHome  />
-                    <ActiveUserOnHome  />
-                </ScrollView>
-            </View> */}
             <Chat
                 navigation={navigation}
                 profilePicture='https://i.imgur.com/w3Ln36b.jpg'
@@ -58,7 +43,6 @@ const HomeChat = ({ navigation }) => {
                 time="3 days"
                 message="Hi there!!"
             />
-
         </ScrollView>
     )
 }
@@ -78,7 +62,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor : 'red'
     },
     search: {
         flex: 1
