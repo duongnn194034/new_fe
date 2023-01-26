@@ -21,10 +21,6 @@ const SignIn = () => {
 
     const axios = require('axios').default
 
-    const checkConnect = () => {
-        console.log(!netinfo.isConnected || !netinfo.isInternetReachable)
-    }
-
     const onLoginPressed = async () => {
         if (!netinfo.isConnected || !netinfo.isInternetReachable) {
             Alert.alert(
@@ -50,10 +46,9 @@ const SignIn = () => {
                     }
                 }
             )
-            console.log(res.data.data)
             const user_data = res.data.data
             appContext.dispatch({
-                type: "LOGIN",
+                type: 'LOGIN',
                 user_id: user_data.id,
                 token: user_data.token,
                 username: user_data.username,
@@ -64,7 +59,7 @@ const SignIn = () => {
                 link: user_data.link,
                 birthday: user_data.birthday.slice(0, 10),
                 avatar: user_data.avatar,
-                coverImg: user_data.coverImg
+                coverImg: user_data.coverImage
             })
             navigation.navigate("Profile")
         } catch (error) {

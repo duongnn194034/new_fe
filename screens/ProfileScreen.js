@@ -1,7 +1,8 @@
 import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, FlatList, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { getStorage, getDownloadURL } from 'firebase/storage'
 import * as ImagePicker from 'expo-image-picker';
 const FormData = require('form-data')
 
@@ -17,7 +18,12 @@ const ProfileScreen = () => {
     const navigation = useNavigation();
     const appContext = useContext(AppContext);
 
+    // console.log(appContext.loginState)
+    const data = appContext.loginState
+
     const [image, setImage] = useState(assets.avatar);
+    const [avatarURL, setAUrl] = useState("https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/avatar.jpg?alt=media&token=34284f2a-7633-412e-9469-cd06281f3a04")
+    const [coverURL, setCUrl] = useState("https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/cover_img.jpg?alt=media&token=70adfc16-843c-458e-8b56-c261ad76013a")
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -81,7 +87,6 @@ const ProfileScreen = () => {
                 }
             }
         )
-
         console.log(JSON.stringify(res.data.data.friends))
     }
 
@@ -151,35 +156,6 @@ const ProfileScreen = () => {
         )
     }
 
-    const axiosTest = async () => {
-        try {
-            const res = await axios.post(
-                `${BaseURL}/login`,
-                {},
-                {
-                    params: {
-                        phonenumber: "0971885192",
-                        password: "hellominh1"
-                    }
-                }
-            )
-            console.log(JSON.stringify(res.data.data.id))
-            appContext.dispatch({
-                type: 'LOGIN',
-                user_id: JSON.stringify(res.data.data.id),
-                token: JSON.stringify(res.data.data.token),
-                username: JSON.stringify(res.data.data.username)
-            })
-            console.log("appContext Runned")
-            console.log(appContext.loginState.user_id)
-            console.log(appContext.loginState.token)
-            console.log(appContext.loginState.username)
-
-        } catch (error) {
-            console.log(JSON.stringify(error.message))
-        }
-    }
-
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView>
@@ -187,7 +163,7 @@ const ProfileScreen = () => {
                     alignItems: "center"
                 }}>
                     <Image
-                        source={assets.coverImg}
+                        source={{ uri: coverURL }}
                         resizeMode="cover"
                         style={{ height: 250, width: "100%" }}
                     />
@@ -201,7 +177,7 @@ const ProfileScreen = () => {
                             justifyContent: "center"
                         }}>
                         <Image
-                            source={image}
+                            source={{ uri: avatarURL }}
                             resizeMode="cover"
                             style={{ width: 160, height: 160, alignSelf: "center", borderRadius: 300, }} />
                     </View>

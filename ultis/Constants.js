@@ -10,4 +10,14 @@ export const FEMALE = "female";
 export const NO_GENDER = "secret";
 
 // server:
-export const BaseURL = "https://25de-2001-ee0-4914-f780-7b1f-988f-3179-63fd.ap.ngrok.io"
+export const BaseURL = "https://7247-2001-ee0-4914-f780-7b1f-988f-3179-63fd.ap.ngrok.io"
+
+// image:
+export const avatar = {
+    filename: "avatar",
+    uri: "gs://danentang-1edea.appspot.com/avatar.jpg"
+}
+export const coverImage = {
+    filename: "coverImage",
+    uri: "gs://danentang-1edea.appspot.com/cover_img.jpg"
+}
