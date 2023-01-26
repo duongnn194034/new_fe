@@ -1,14 +1,18 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { View, Image, StyleSheet, useWindowDimensions, SafeAreaView, TouchableOpacity } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, Image, StyleSheet, useWindowDimensions, SafeAreaView, TouchableOpacity, ImageComponent, Alert } from "react-native";
+import { useNetInfo } from "@react-native-community/netinfo";
+
 import Logo from "../assets/images/facebook_logo.png";
 import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput"
 import { BaseURL } from "../ultis/Constants"
-
+import AppContext from "../context/AppContext";
 
 const SignIn = () => {
     const navigation = useNavigation()
+    const netinfo = useNetInfo()
+    const appContext = useContext(AppContext)
 
     const { height } = useWindowDimensions();
     const [phonenumber, setPhoneNumber] = useState('');
@@ -17,22 +21,67 @@ const SignIn = () => {
 
     const axios = require('axios').default
 
-    const onLoginPressed = async () => {
-        const res = await axios.post(
-            `${BaseURL}/it4788/auth/login`,
-            {},
-            {
-                params: {
-                    phonenumber: phonenumber,
-                    password: password
-                }
-            }
-        )
-        console.log(res)
-    };
-    const onForgotPasswordPressed = () => {
+    const checkConnect = () => {
+        console.log(!netinfo.isConnected || !netinfo.isInternetReachable)
+    }
 
+    const onLoginPressed = async () => {
+        if (!netinfo.isConnected || !netinfo.isInternetReachable) {
+            Alert.alert(
+                "Lỗi mạng",
+                "Kết nối không thành công, kiểm tra kết nối với mạng và thử lại",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ]
+            )
+            return
+        }
+        try {
+            const res = await axios.post(
+                `${BaseURL}/it4788/auth/login`,
+                {},
+                {
+                    params: {
+                        phonenumber: phonenumber,
+                        password: password
+                    }
+                }
+            )
+            console.log(res.data.data)
+            const user_data = res.data.data
+            appContext.dispatch({
+                type: "LOGIN",
+                user_id: user_data.id,
+                token: user_data.token,
+                username: user_data.username,
+                description: user_data.description,
+                address: user_data.address,
+                city: user_data.city,
+                country: user_data.city,
+                link: user_data.link,
+                birthday: user_data.birthday.slice(0, 10),
+                avatar: user_data.avatar,
+                coverImg: user_data.coverImg
+            })
+            navigation.navigate("Profile")
+        } catch (error) {
+            console.log(error)
+            Alert.alert(
+                "Lỗi đăng nhập",
+                "Tài khoản hoặc mật khẩu không chính xác",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ]
+            )
+        }
     };
+
     const onSignUpPressed = () => {
         navigation.navigate("SignUp")
     };

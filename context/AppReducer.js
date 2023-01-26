@@ -1,3 +1,5 @@
+import { assets } from "../constants"
+
 export const reducer = (state, action) => {
     switch (action.type) {
         case 'LOGIN':
@@ -12,8 +14,8 @@ export const reducer = (state, action) => {
                 country: action.city,
                 link: action.link,
                 birthday: action.birthday,
-                avatar: action.avatar,
-                coverImg: action.coverImg
+                avatar: (action.avatar) ? assets.avatar : action.avatar,
+                coverImg: (action.coverImg) ? assets.coverImg : action.coverImg
             }
         case 'LOGOUT': {
             return {

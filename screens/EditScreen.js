@@ -15,6 +15,7 @@ import {
     TouchableWithoutFeedback
 } from 'react-native'
 const FormData = require('form-data')
+import { NetInfoCellularGeneration, useNetInfo } from '@react-native-community/netinfo'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import { BaseURL } from '../ultis/Constants'
@@ -22,6 +23,7 @@ import { BaseURL } from '../ultis/Constants'
 const MAX_AVATAR_SIZE = 4 * 1024 * 1024;
 
 const EditScreen = () => {
+    const netinfo = useNetInfo()
     // { username, description, address, city, country, link, birthday }
     const [username, setUsername] = useState("")
     const [description, setDescription] = useState("")
@@ -40,7 +42,25 @@ const EditScreen = () => {
     const typeAvatar = ""
     const typeCover = ""
 
+    const checkConnect = () => {
+        return (!netinfo.isConnected || !netinfo.isInternetReachable)
+    }
+
     const changeInfo = async () => {
+        if (checkConnect) {
+            Alert.alert(
+                "Lỗi mạng",
+                "Kết nối không thành công, kiểm tra kết nối với mạng và thử lại",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ]
+            )
+            return
+        }
+
         const formdata = new FormData()
         formdata.append("avatar",
             {

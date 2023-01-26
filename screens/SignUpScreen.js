@@ -6,9 +6,11 @@ import Logo from '../assets/images/facebook_logo.png'
 import MyDatePicker from '../components/DatePicker'
 import { useNavigation } from '@react-navigation/native'
 import { BaseURL } from '../ultis/Constants'
+import { useNetInfo } from '@react-native-community/netinfo'
 
 const SignUp = () => {
     const navigation = useNavigation()
+    const netinfo = useNetInfo()
 
     const [username, setUsername] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -18,6 +20,9 @@ const SignUp = () => {
     const [selectedDate, setSelectedDate] = useState('');
 
     const axios = require('axios').default
+    const checkConnect = () => {
+        return (!netinfo.isConnected || !netinfo.isInternetReachable)
+    }
 
     var checkUserPassword = (password) => {
         var regex = /^[A-Za-z\d]{6,10}$/;
@@ -67,6 +72,18 @@ const SignUp = () => {
                         style: 'cancel'
                     }
                 ])
+        } else if (checkConnect) {
+            Alert.alert(
+                "Lỗi mạng",
+                "Kết nối không thành công, kiểm tra kết nối với mạng và thử lại",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ]
+            )
+            return
         } else {
             try {
                 const res = await axios.post(
@@ -81,6 +98,7 @@ const SignUp = () => {
                         }
                     })
                 console.log(res.data)
+                navigation.navigate("SignIn")
             } catch (error) {
                 Alert.alert("Lỗi số điện thoại",
                     "Số điện thoại đã được sử dụng",
