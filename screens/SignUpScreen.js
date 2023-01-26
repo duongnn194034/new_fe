@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native'
 import CustomButton from '../components/CustomButton'
 import CustomInput from '../components/CustomInput'
 import Logo from '../assets/images/facebook_logo.png'
@@ -70,99 +70,112 @@ const SignUp = () => {
         } else {
             try {
                 const res = await axios.post(
-                `${BaseURL}/it4788/auth/signup`,
-                {},
-                {
-                    params: {
-                        name: username,
-                        password: password,
-                        phonenumber: phoneNumber,
-                        birthday: selectedDate
-                    }
-                })
-            console.log(res.data)
+                    `${BaseURL}/it4788/auth/signup`,
+                    {},
+                    {
+                        params: {
+                            name: username,
+                            password: password,
+                            phonenumber: phoneNumber,
+                            birthday: selectedDate
+                        }
+                    })
+                console.log(res.data)
             } catch (error) {
                 Alert.alert("Lỗi số điện thoại",
-                "Số điện thoại đã được sử dụng",
-                [
-                    {
-                        text: "OK",
-                        style: 'cancel'
-                    }
-                ])
+                    "Số điện thoại đã được sử dụng",
+                    [
+                        {
+                            text: "OK",
+                            style: 'cancel'
+                        }
+                    ])
             }
         }
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.header}>Đăng ký tài khoản</Text>
-            <Image
-                source={Logo}
-                resizeMode="contain"
-                style={styles.logo}
-            />
-            <View style={styles.form}>
-                <CustomInput
-                    placeholder="Tên đăng nhập"
-                    value={username}
-                    setValue={setUsername}
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}>
+                <Text style={styles.header}>Đăng ký tài khoản</Text>
+                <Image
+                    source={Logo}
+                    resizeMode="contain"
+                    style={styles.logo}
                 />
-                <CustomInput
-                    placeholder="Số điện thoại"
-                    value={phoneNumber}
-                    setValue={setPhoneNumber}
-                />
-                <View style={styles.password}>
+                <View style={styles.form}>
                     <CustomInput
-                        placeholder="Mật khẩu"
-                        value={password}
-                        setValue={setPassword}
-                        secureTextEntry={secure}
+                        placeholder="Tên đăng nhập"
+                        value={username}
+                        setValue={setUsername}
                     />
-                    <TouchableOpacity style={styles.visible} onPress={() => setSecure(!secure)}>
-                        {secure ?
-                            <Image source={require('../assets/icons/visible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
-                            :
-                            <Image source={require('../assets/icons/notvisible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
-                        }
-                    </TouchableOpacity>
+                    <CustomInput
+                        placeholder="Số điện thoại"
+                        value={phoneNumber}
+                        setValue={setPhoneNumber}
+                    />
+                    <View style={styles.password}>
+                        <CustomInput
+                            placeholder="Mật khẩu"
+                            value={password}
+                            setValue={setPassword}
+                            secureTextEntry={secure}
+                        />
+                        <TouchableOpacity style={styles.visible} onPress={() => setSecure(!secure)}>
+                            {secure ?
+                                <Image source={require('../assets/icons/visible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
+                                :
+                                <Image source={require('../assets/icons/notvisible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
+                            }
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.password}>
+                        <CustomInput
+                            placeholder="Nhập lại mật khẩu"
+                            value={passwordRe}
+                            setValue={setPasswordRe}
+                            secureTextEntry
+                        />
+                        <TouchableOpacity style={styles.visible} onPress={() => setSecure(!secure)}>
+                            {secure ?
+                                <Image source={require('../assets/icons/visible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
+                                :
+                                <Image source={require('../assets/icons/notvisible.jpg')} style={{ width: '100%', height: '100%', color: '#E8E8E8' }} resizeMode='contain' />
+                            }
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <CustomInput
-                    placeholder="Nhập lại mật khẩu"
-                    value={passwordRe}
-                    setValue={setPasswordRe}
-                    secureTextEntry
-                />
-            </View>
-            <View>
-                <Text style={styles.birthdayText}>Sinh nhật</Text>
-                <MyDatePicker
-                    date={selectedDate}
-                    setSelectedDate={setSelectedDate}
-                />
-            </View>
-            <View style={styles.rule}>
-                <Text style={styles.ruleText}>
-                    Nhấn xác nhận đồng nghĩa với bạn đã đọc và đồng ý với{' '}
-                    <Text style={styles.link} onPress={onRulePressed}>điều khoản dịch vụ{' '}</Text>
-                    và{' '}
-                    <Text style={styles.link}>chính sách bảo mật{' '}</Text>
-                    của chúng tôi.
-                </Text>
-            </View>
-            <View style={styles.naviButton}>
-                <CustomButton
-                    text="Quay lại"
-                    onPress={onReturnPressed}
-                    type="LEFT"
-                />
-                <CustomButton
-                    text="Xác nhận"
-                    onPress={onNextPressed}
-                    type="RIGHT"
-                />
-            </View>
+                <View>
+                    <Text style={styles.birthdayText}>Sinh nhật</Text>
+                    <MyDatePicker
+                        date={selectedDate}
+                        setSelectedDate={setSelectedDate}
+                    />
+                </View>
+                <View style={styles.rule}>
+                    <Text style={styles.ruleText}>
+                        Nhấn xác nhận đồng nghĩa với bạn đã đọc và đồng ý với{' '}
+                        <Text style={styles.link} onPress={onRulePressed}>điều khoản dịch vụ{' '}</Text>
+                        và{' '}
+                        <Text style={styles.link}>chính sách bảo mật{' '}</Text>
+                        của chúng tôi.
+                    </Text>
+                </View>
+                <View style={styles.naviButton}>
+                    <CustomButton
+                        text="Quay lại"
+                        onPress={onReturnPressed}
+                        type="LEFT"
+                    />
+                    <CustomButton
+                        text="Xác nhận"
+                        onPress={onNextPressed}
+                        type="RIGHT"
+                    />
+                </View>
+            </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }

@@ -72,11 +72,6 @@ const SignIn = () => {
                     text="Đăng nhập"
                     onPress={onLoginPressed}
                 />
-                <CustomButton
-                    text="Quên mật khẩu?"
-                    onPress={onForgotPasswordPressed}
-                    type="TERTIARY"
-                />
             </View>
             <View
                 style={styles.line}
