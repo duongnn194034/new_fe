@@ -5,6 +5,7 @@ import CustomInput from '../components/CustomInput'
 import Logo from '../assets/images/facebook_logo.png'
 import MyDatePicker from '../components/DatePicker'
 import { useNavigation } from '@react-navigation/native'
+import { BaseURL } from '../ultis/Constants'
 
 const SignUp = () => {
     const navigation = useNavigation()
@@ -17,7 +18,11 @@ const SignUp = () => {
     const [selectedDate, setSelectedDate] = useState('');
 
     const axios = require('axios').default
-    const baseUrl = 'https://91ed-2402-800-6173-d69d-9970-5275-891d-26df.ap.ngrok.io'
+
+    var checkUserPassword = (password) => {
+        var regex = /^[A-Za-z\d]{6,10}$/;
+        return regex.test(password);
+    }
 
     const onRulePressed = () => {
 
@@ -25,7 +30,7 @@ const SignUp = () => {
     const onReturnPressed = () => {
         navigation.navigate('SignIn')
     };
-    const onNextPressed = () => {
+    const onNextPressed = async () => {
         if (passwordRe != password) {
             Alert.alert("Lỗi mật khẩu",
                 "Mật khẩu không khớp",
@@ -35,15 +40,57 @@ const SignUp = () => {
                         style: 'cancel'
                     }
                 ])
+        } else if (password == '' || passwordRe == '' || username == '' || phoneNumber == '' || selectedDate == '') {
+            Alert.alert("Lỗi bỏ trống",
+                "Bạn chưa điền đầy đủ thông tin",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ])
+        } else if (phoneNumber == password || phoneNumber == passwordRe) {
+            Alert.alert("Lỗi dữ liệu",
+                "Mật khẩu không thể trùng số điện thoại",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ])
+        } else if (!checkUserPassword(password)) {
+            Alert.alert("Lỗi dữ liệu",
+                "Mật khẩu chứa 6 ~ 10 ký tự, không chứa ký tự đặc biệt",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ])
         } else {
-            axios.post(`${baseUrl}/it4788/auth/signup?name=${username}&password=${password}&phonenumber=${phoneNumber}&birthday=${selectedDate}`)
-                .then((response) => {
-                    let verifyCode = response.data.data.verifyCode
-                    console.log(verifyCode)
-                }).catch((error) => {
-                    console.log(error)
-                    console.log(JSON.stringify(error))
+            try {
+                const res = await axios.post(
+                `${BaseURL}/it4788/auth/signup`,
+                {},
+                {
+                    params: {
+                        name: username,
+                        password: password,
+                        phonenumber: phoneNumber,
+                        birthday: selectedDate
+                    }
                 })
+            console.log(res.data)
+            } catch (error) {
+                Alert.alert("Lỗi số điện thoại",
+                "Số điện thoại đã được sử dụng",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ])
+            }
         }
     }
 

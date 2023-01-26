@@ -69,8 +69,6 @@ const ProfileScreen = () => {
         }
     };
 
-    console.log("===============================================================================================================================================================")
-
     const getFriends = async () => {
         const res = await axios.post(
             `${BaseURL}/friend/get_user_friends`,
