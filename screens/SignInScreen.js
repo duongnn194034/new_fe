@@ -58,8 +58,8 @@ const SignIn = () => {
                 country: user_data.city,
                 link: user_data.link,
                 birthday: user_data.birthday.slice(0, 10),
-                avatar: user_data.avatar,
-                coverImg: user_data.coverImage
+                avatarURL: user_data.avatar,
+                coverImgURL: user_data.coverImage
             })
             navigation.navigate("Profile")
         } catch (error) {

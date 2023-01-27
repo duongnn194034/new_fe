@@ -14,8 +14,8 @@ export const reducer = (state, action) => {
                 country: action.city,
                 link: action.link,
                 birthday: action.birthday,
-                avatar: (action.avatar) ? avatar : action.avatar,
-                coverImg: (action.coverImg) ? coverImage : action.coverImg
+                avatarURL: (action.avatarURL) ?  action.avatarURL : avatar.uri,
+                coverImgURL: (action.coverImgURL) ?  action.coverImgURL : coverImage.uri 
             }
         case 'LOGOUT': {
             return {
@@ -29,8 +29,8 @@ export const reducer = (state, action) => {
                 country: null,
                 link: null,
                 birthday: null,
-                avatar: null,
-                coverImg: null
+                avatarURL: null,
+                coverImgURL: null
             }
         }
         case 'CHANG_USER_NAME': {
@@ -42,8 +42,8 @@ export const reducer = (state, action) => {
         case 'CHANG_AVATAR': {
             return {
                 ...state,
-                avatar: action.avatar,
-                coverImg: action.coverImg
+                avatarURL: action.avatarURL,
+                coverImgURL: action.coverImgURL
             }
         }
 

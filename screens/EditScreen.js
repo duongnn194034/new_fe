@@ -19,6 +19,7 @@ import { NetInfoCellularGeneration, useNetInfo } from '@react-native-community/n
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import { BaseURL } from '../ultis/Constants'
+import AppContext from '../context/AppContext'
 
 const MAX_AVATAR_SIZE = 4 * 1024 * 1024;
 
@@ -41,6 +42,9 @@ const EditScreen = () => {
     const coverlink = ""
     const typeAvatar = ""
     const typeCover = ""
+
+    const appContext = useContext(AppContext)
+    const data = appContext.loginState
 
     const checkConnect = () => {
         return (!netinfo.isConnected || !netinfo.isInternetReachable)
@@ -166,10 +170,10 @@ const EditScreen = () => {
                             <Text style={{ fontFamily: FONTS.bold, fontSize: SIZES.extraLarge, }}>Ảnh đại diện</Text>
                             <Button title='Chỉnh sửa'
                                 onPress={pickAvatar}
-                                style={{ fontFamily: FONTS.regular, fontSize: SIZES.large, }} />
+                                style={{ fontFamily: FONTS.regular, fontSize: SIZES.large }} />
                         </View>
                         <Image
-                            source={avatar}
+                            source={{ uri: data.avatarURL }}
                             style={{
                                 width: 180,
                                 height: 180,
@@ -188,7 +192,7 @@ const EditScreen = () => {
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: "space-between", marginHorizontal: 10 }}>
                             <Image
-                                source={cover}
+                                source={{ uri: coverImgURL }}
                                 resizeMode="cover"
                                 style={{ height: 250, width: "100%", alignSelf: "center", borderRadius: 12 }}
                             />
@@ -209,7 +213,7 @@ const EditScreen = () => {
                                 <TextInput
                                     onChangeText={setUsername}
                                     value={username}
-                                    placeholder="Nguyễn Văn A"
+                                    placeholder={data.username}
                                     style={styles.infoInput}
                                 />
                             </View>
@@ -219,7 +223,7 @@ const EditScreen = () => {
                                 <TextInput
                                     onChangeText={setDescription}
                                     value={description}
-                                    placeholder="Hello I'm A"
+                                    placeholder={data.description}
                                     style={styles.infoInput}
                                 />
                             </View>
@@ -229,7 +233,7 @@ const EditScreen = () => {
                                 <TextInput
                                     onChangeText={setAddress}
                                     value={address}
-                                    placeholder="Bách Khoa"
+                                    placeholder={data.address}
                                     style={styles.infoInput}
                                 />
                             </View>
@@ -239,7 +243,7 @@ const EditScreen = () => {
                                 <TextInput
                                     onChangeText={setCity}
                                     value={city}
-                                    placeholder="Hà Nội"
+                                    placeholder={data.city}
                                     style={styles.infoInput}
                                 />
                             </View>
@@ -249,7 +253,7 @@ const EditScreen = () => {
                                 <TextInput
                                     onChangeText={setCountry}
                                     value={country}
-                                    placeholder="Việt Nam"
+                                    placeholder={data.country}
                                     style={styles.infoInput}
                                 />
                             </View>
@@ -259,7 +263,7 @@ const EditScreen = () => {
                                 <TextInput
                                     onChangeText={setLink}
                                     value={link}
-                                    placeholder="@insta/ducminhsw"
+                                    placeholder={data.link}
                                     style={styles.infoInput}
                                 />
                             </View>
@@ -269,7 +273,7 @@ const EditScreen = () => {
                                 <TextInput
                                     onChangeText={setBirthday}
                                     value={birthday}
-                                    placeholder="YYYY-MM-DD"
+                                    placeholder={data.birthday}
                                     style={styles.infoInput}
                                 />
                             </View>

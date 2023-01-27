@@ -20,10 +20,13 @@ const ProfileScreen = () => {
 
     // console.log(appContext.loginState)
     const data = appContext.loginState
+    console.log(data)
 
     const [image, setImage] = useState(assets.avatar);
     const [avatarURL, setAUrl] = useState("https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/avatar.jpg?alt=media&token=34284f2a-7633-412e-9469-cd06281f3a04")
     const [coverURL, setCUrl] = useState("https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/cover_img.jpg?alt=media&token=70adfc16-843c-458e-8b56-c261ad76013a")
+
+    let Data = []
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -37,8 +40,8 @@ const ProfileScreen = () => {
         if (!result.canceled) {
             if (result.assets[0].fileSize > MAX_IMAGE_SIZE) {
                 Alert.alert(
-                    "Alert: This image file is too big",
-                    "Only accept image under 4MB in size",
+                    "Lỗi kích thước ảnh",
+                    "Chỉ chấp nhận ảnh có kích thước từ 4MB trở xuống",
                     {
                         text: "OK",
                         type: "cancel"
@@ -65,7 +68,7 @@ const ProfileScreen = () => {
                 {
                     params: {
                         described: "axios post",
-                        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYzU2MWQ3NDhkNzgxMzEyY2QzYzA2NCIsImRhdGVMb2dpbiI6IjIwMjMtMDEtMjJUMTU6MzE6MjUuNTg2WiIsImlhdCI6MTY3NDQwMTQ4NSwiZXhwIjoxNjc0NDg3ODg1fQ.Bsy1YfcqnG2HThEtMQByvr7mTCwr3RWFepbBtq0QxDM",
+                        token: data.token,
                         status: "được yêu"
                     },
                     headers: { 'Content-Type': 'multipart/form-data' }
@@ -75,19 +78,22 @@ const ProfileScreen = () => {
         }
     };
 
-    const getFriends = async () => {
+    const get_list_friends = async () => {
         const res = await axios.post(
-            `${BaseURL}/friend/get_user_friends`,
+            `${BaseURL}/it4788/friend/get_user_friends`,
             {},
             {
                 params: {
-                    token: appContext.loginState.token,
+                    token: data.token,
                     index: 0,
-                    count: 10
+                    count: 20,
+                    user_id: data.user_id
                 }
             }
         )
+        Data = res.data.data.friends
         console.log(JSON.stringify(res.data.data.friends))
+        console.log(Data)
     }
 
     const DATA = [
@@ -262,7 +268,8 @@ const ProfileScreen = () => {
                         </View>
 
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("FriendList", DATA)}
+                            onPress={get_list_friends}
+                            // onPress={() => navigation.navigate("FriendList", DATA)}
                             style={{
                                 backgroundColor: "#DDDDDD",
                                 height: 40,
