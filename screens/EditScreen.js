@@ -81,7 +81,7 @@ const EditScreen = () => {
 
         try {
             const res = await axios(
-                `${BaseURL}/user/set_user_info`,
+                `${BaseURL}/it4788/user/set_user_info`,
                 {
                     avatar: avatar,
                     coverImage: cover,
