@@ -27,35 +27,7 @@ const ChatView = () => {
     const generateKey = (numberOfCharacters) => {
         return require('random-string')({length: numberOfCharacters});
     }
-    
-    // 1: send, 2: received
-    // const [msgList, setMsgList] = useState([
-    //     {
-    //         key: '8990289042834joqwjer92rq',
-    //         msg: 'Hello!',
-    //         idCate: 1
-    //     },
-    //     {
-    //         key: '899028904248djfqwjer92rq',
-    //         msg: 'Hello There!',
-    //         idCate: 2
-    //     },
-    //     {
-    //         key: '899028904s829soqwjer92rq',
-    //         msg: 'How are u?',
-    //         idCate: 1
-    //     },
-    //     {
-    //         key: '89hjd8d042834joqwjer92rq',
-    //         msg: 'Fine',
-    //         idCate: 2
-    //     },
-    //     {
-    //         key: '89902890428348s8wjer92rq',
-    //         msg: 'Adjgjhs',
-    //         idCate: 1
-    //     }
-    // ])
+
     return (
         <View style={styles.container}>
             
@@ -104,8 +76,6 @@ const ChatView = () => {
                     };
                     msgList.push(newMessage);
                     refreshFlatList(newKey);
-
-                    
                 }} style={styles.icon}>
                     <FontAwesome5 name="paper-plane" size={responsiveFontSize(3.5)} color="#006AFF" />
                 </TouchableOpacity>

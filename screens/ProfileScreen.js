@@ -83,7 +83,7 @@ const ProfileScreen = () => {
                 params: {
                     token: appContext.loginState.token,
                     index: 0,
-                    count: 6
+                    count: 10
                 }
             }
         )
@@ -114,7 +114,7 @@ const ProfileScreen = () => {
         {
             id: "5",
             avatar: assets.chopper,
-            name: "Choppr",
+            name: "Chopper",
         },
         {
             id: "6",

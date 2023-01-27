@@ -8,17 +8,17 @@ const ChangePassScreen = () => {
 
     const changePassword = async () => {
         try {
-            // const res = await axios.post(
-            //     `${BaseURL}/user/change_password`,
-            //     {},
-            //     {
-            //         params:{
-            //             token: token,
-            //             password: password1,
-            //             new_password: password2
-            //         }
-            //     }
-            // )
+            const res = await axios.post(
+                `${BaseURL}/user/change_password`,
+                {},
+                {
+                    params:{
+                        token: token,
+                        password: password1,
+                        new_password: password2
+                    }
+                }
+            )
             console.log(password1)
         } catch (error) {
             console.log(JSON.stringify(error.message))
