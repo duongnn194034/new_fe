@@ -29,8 +29,8 @@ export default function App() {
     country: null,
     link: null,
     birthday: null,
-    avatar: null,
-    coverImg: null
+    avatarURL: null,
+    coverImgURL: null
   }
 
   const [loginState, dispatch] = useReducer(reducer, initLoginState);

@@ -10,7 +10,7 @@ export const FEMALE = "female";
 export const NO_GENDER = "secret";
 
 // server:
-export const BaseURL = "https://16e2-2001-ee0-4914-f780-7b1f-988f-3179-63fd.ap.ngrok.io"
+export const BaseURL = "https://523e-2001-ee0-4914-f780-e008-d97a-52e5-7482.ap.ngrok.io"
 
 // image:
 export const avatar = {

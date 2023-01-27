@@ -47,6 +47,7 @@ const SignIn = () => {
                 }
             )
             const user_data = res.data.data
+            console.log(user_data)
             appContext.dispatch({
                 type: 'LOGIN',
                 user_id: user_data.id,

@@ -15,7 +15,7 @@ import {
     TouchableWithoutFeedback
 } from 'react-native'
 const FormData = require('form-data')
-import { NetInfoCellularGeneration, useNetInfo } from '@react-native-community/netinfo'
+import { useNetInfo } from '@react-native-community/netinfo'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import { BaseURL } from '../ultis/Constants'
@@ -192,7 +192,7 @@ const EditScreen = () => {
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: "space-between", marginHorizontal: 10 }}>
                             <Image
-                                source={{ uri: coverImgURL }}
+                                source={{ uri: data.coverImgURL }}
                                 resizeMode="cover"
                                 style={{ height: 250, width: "100%", alignSelf: "center", borderRadius: 12 }}
                             />
