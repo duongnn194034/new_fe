@@ -2,7 +2,6 @@ import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, FlatList
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
-import { getStorage, getDownloadURL } from 'firebase/storage'
 import * as ImagePicker from 'expo-image-picker';
 const FormData = require('form-data')
 
@@ -23,8 +22,8 @@ const ProfileScreen = () => {
     console.log(data)
 
     const [image, setImage] = useState(assets.avatar);
-    const [avatarURL, setAUrl] = useState("https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/avatar.jpg?alt=media&token=34284f2a-7633-412e-9469-cd06281f3a04")
-    const [coverURL, setCUrl] = useState("https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/cover_img.jpg?alt=media&token=70adfc16-843c-458e-8b56-c261ad76013a")
+    const [avatarURL, setAUrl] = useState(data.avatarURL)
+    const [coverURL, setCUrl] = useState(data.coverImgURL)
 
     let Data = []
 
@@ -53,6 +52,8 @@ const ProfileScreen = () => {
             setImage(result.assets);
 
             const type = /\.(\w+)$/.exec(result.assets[0].uri)
+            console.log(type)
+            console.log(typeof type)
 
             let formdata = new FormData();
             formdata.append("image",
@@ -63,7 +64,7 @@ const ProfileScreen = () => {
                 });
 
             const res = await axios.post(
-                `${BaseURL}/post/add_post`,
+                `${BaseURL}/it4788/post/add_post`,
                 formdata,
                 {
                     params: {

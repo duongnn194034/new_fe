@@ -6,6 +6,7 @@ import {
     ScrollView,
     Image,
     Button,
+    Alert,
     TouchableOpacity,
     TextInput,
     StyleSheet,
@@ -15,97 +16,34 @@ import {
     TouchableWithoutFeedback
 } from 'react-native'
 const FormData = require('form-data')
+import * as ImagePicker from 'expo-image-picker';
 import { useNetInfo } from '@react-native-community/netinfo'
+import axios from 'axios'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import { BaseURL } from '../ultis/Constants'
 import AppContext from '../context/AppContext'
 
 const MAX_AVATAR_SIZE = 4 * 1024 * 1024;
+var avatarlink, coverlink, typeAvatar, typeCover
 
 const EditScreen = () => {
     const netinfo = useNetInfo()
+    const appContext = useContext(AppContext)
+
+    const data = appContext.loginState
     // { username, description, address, city, country, link, birthday }
-    const [username, setUsername] = useState("")
-    const [description, setDescription] = useState("")
-    const [address, setAddress] = useState("")
-    const [city, setCity] = useState("")
-    const [country, setCountry] = useState("")
-    const [link, setLink] = useState("")
-    const [birthday, setBirthday] = useState("")
+    const [username, setUsername] = useState(data.username)
+    const [description, setDescription] = useState(data.description)
+    const [address, setAddress] = useState(data.address)
+    const [city, setCity] = useState(data.city)
+    const [country, setCountry] = useState(data.country)
+    const [link, setLink] = useState(data.link)
+    const [birthday, setBirthday] = useState(data.birthday)
 
     // avatar, coverImage
-    const [avatar, setAvatar] = useState(assets.avatar)
-    const [cover, setCover] = useState(assets.coverImg)
-
-    const avatarlink = ""
-    const coverlink = ""
-    const typeAvatar = ""
-    const typeCover = ""
-
-    const appContext = useContext(AppContext)
-    const data = appContext.loginState
-
-    const checkConnect = () => {
-        return (!netinfo.isConnected || !netinfo.isInternetReachable)
-    }
-
-    const changeInfo = async () => {
-        if (checkConnect) {
-            Alert.alert(
-                "Lỗi mạng",
-                "Kết nối không thành công, kiểm tra kết nối với mạng và thử lại",
-                [
-                    {
-                        text: "OK",
-                        style: 'cancel'
-                    }
-                ]
-            )
-            return
-        }
-
-        const formdata = new FormData()
-        formdata.append("avatar",
-            {
-                name: "avatar",
-                type: "image/" + typeAvatar[1],
-                uri: avatarlink
-            })
-        formdata.append("avatar",
-            {
-                name: "avatar",
-                type: "image/" + typeCover[1],
-                uri: coverlink
-            })
-
-        try {
-            const res = await axios(
-                `${BaseURL}/it4788/user/set_user_info`,
-                {
-                    avatar: avatar,
-                    coverImage: cover,
-                },
-                {
-                    params: {
-                        username: username,
-                        description: description,
-                        address: address,
-                        city: city,
-                        country: country,
-                        link: link,
-                        birthday: birthday
-                    },
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
-            )
-            console.log(res)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const [avatar, setAvatar] = useState(data.avatarURL)
+    const [cover, setCover] = useState(data.coverImgURL)
 
     const pickAvatar = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -127,9 +65,12 @@ const EditScreen = () => {
                 )
                 return
             }
-            setAvatar(result.assets);
+            setAvatar(result.assets[0].uri)
             avatarlink = result.assets[0].uri
+            console.log(avatarlink)
             typeAvatar = /\.(\w+)$/.exec(result.assets[0].uri)
+            console.log(typeAvatar)
+            console.log(typeAvatar[1])
         }
     };
 
@@ -153,9 +94,70 @@ const EditScreen = () => {
                 )
                 return
             }
-            setImage(result.assets);
+            setCover(result.assets[0].uri);
             coverlink = result.assets[0].uri
+            console.log(coverlink)
             typeCover = /\.(\w+)$/.exec(result.assets[0].uri)
+        }
+    }
+
+    const changeInfo = async () => {
+        if (!netinfo.isConnected || !netinfo.isInternetReachable) {
+            Alert.alert(
+                "Lỗi mạng",
+                "Kết nối không thành công, kiểm tra kết nối với mạng và thử lại",
+                [
+                    {
+                        text: "OK",
+                        style: 'cancel'
+                    }
+                ]
+            )
+            return
+        }
+
+        let formdata = new FormData()
+        console.log(typeAvatar[1])
+        try {
+            formdata.append("avatar",
+                {
+                    name: "ravatar",
+                    type: "image/" + typeAvatar[1],
+                    uri: avatarlink
+                })
+            formdata.append("cover_image",
+                {
+                    name: "rcover",
+                    type: "image/" + typeCover[1],
+                    uri: coverlink
+                })
+        } catch (error) {
+            console.log(error)
+        }
+
+        try {
+            const res = await axios.post(
+                `${BaseURL}/it4788/user/set_user_info`,
+                formdata,
+                {
+                    params: {
+                        token: data.token,
+                        username: username,
+                        description: description,
+                        address: address,
+                        city: city,
+                        country: country,
+                        link: link,
+                        birthday: birthday
+                    },
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            )
+            console.log(res.data)
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -173,7 +175,7 @@ const EditScreen = () => {
                                 style={{ fontFamily: FONTS.regular, fontSize: SIZES.large }} />
                         </View>
                         <Image
-                            source={{ uri: data.avatarURL }}
+                            source={{ uri: avatar }}
                             style={{
                                 width: 180,
                                 height: 180,
@@ -192,7 +194,7 @@ const EditScreen = () => {
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: "space-between", marginHorizontal: 10 }}>
                             <Image
-                                source={{ uri: data.coverImgURL }}
+                                source={{ uri: cover }}
                                 resizeMode="cover"
                                 style={{ height: 250, width: "100%", alignSelf: "center", borderRadius: 12 }}
                             />

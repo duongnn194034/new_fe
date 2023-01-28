@@ -47,7 +47,8 @@ const SignIn = () => {
                 }
             )
             const user_data = res.data.data
-            console.log(user_data)
+
+            
             appContext.dispatch({
                 type: 'LOGIN',
                 user_id: user_data.id,
@@ -62,6 +63,8 @@ const SignIn = () => {
                 avatarURL: user_data.avatar,
                 coverImgURL: user_data.coverImage
             })
+            console.log(user_data)
+            console.log(res.data.data)
             navigation.navigate("Profile")
         } catch (error) {
             console.log(error)
