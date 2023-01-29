@@ -21,63 +21,10 @@ const ProfileScreen = () => {
     const data = appContext.loginState
     console.log(data)
 
-    const [image, setImage] = useState(assets.avatar);
     const [avatarURL, setAUrl] = useState(data.avatarURL)
     const [coverURL, setCUrl] = useState(data.coverImgURL)
 
     let Data = []
-
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [16, 9],
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            if (result.assets[0].fileSize > MAX_IMAGE_SIZE) {
-                Alert.alert(
-                    "Lỗi kích thước ảnh",
-                    "Chỉ chấp nhận ảnh có kích thước từ 4MB trở xuống",
-                    {
-                        text: "OK",
-                        type: "cancel"
-                    }
-                )
-
-                return
-            }
-            setImage(result.assets);
-
-            const type = /\.(\w+)$/.exec(result.assets[0].uri)
-            console.log(type)
-            console.log(typeof type)
-
-            let formdata = new FormData();
-            formdata.append("image",
-                {
-                    name: "avatar",
-                    type: "image/" + type[1],
-                    uri: result.assets[0].uri
-                });
-
-            const res = await axios.post(
-                `${BaseURL}/it4788/post/add_post`,
-                formdata,
-                {
-                    params: {
-                        described: "axios post",
-                        token: data.token,
-                        status: "được yêu"
-                    },
-                    headers: { 'Content-Type': 'multipart/form-data' }
-                }
-            )
-            console.log(res)
-        }
-    };
 
     const get_list_friends = async () => {
         const res = await axios.post(
@@ -95,6 +42,7 @@ const ProfileScreen = () => {
         Data = res.data.data.friends
         console.log(JSON.stringify(res.data.data.friends))
         console.log(Data)
+        navigation.navigate("FriendList", Data)
     }
 
     const DATA = [

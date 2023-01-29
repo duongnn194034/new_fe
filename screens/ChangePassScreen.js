@@ -1,12 +1,54 @@
 import React, { useState } from 'react'
-import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, FlatList, TextInput } from 'react-native'
+import { Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, FlatList, TextInput, Alert } from 'react-native'
+import axios from 'axios';
+
 import { FONTS, SIZES } from '../constants';
 
 const ChangePassScreen = () => {
     const [password1, onChange1] = useState("");
     const [password2, onChange2] = useState("");
 
+    var checkUserPassword = (password) => {
+        var regex = /^[A-Za-z\d]{6,10}$/;
+        return regex.test(password);
+    }
+
     const changePassword = async () => {
+        if (password1 == "" || password2 == "") {
+            Alert.alert(
+                "Lỗi nhập liệu",
+                "Bạn cần phải nhập đầy đủ thông tin",
+                {
+                    text: "OK",
+                    style: "cancel"
+                }
+            )
+            return
+        }
+        if (password1 == password2) {
+            Alert.alert(
+                "Lỗi nhập liệu",
+                "Mật khẩu cũ và mật khẩu mới cần phải khác nhau",
+                {
+                    text: "OK",
+                    style: "cancel"
+                }
+            )
+            return
+        }
+
+        if (!checkUserPassword(password1) || !checkUserPassword(password2)) {
+            Alert.alert(
+                "Lỗi dữ liệu",
+                "Mật khẩu chứa 6 ~ 10 ký tự, không chứa ký tự đặc biệt",
+                {
+                    text: "OK",
+                    style: "cancel"
+                }
+            )
+            return
+        }
+
         try {
             const res = await axios.post(
                 `${BaseURL}/user/change_password`,
@@ -19,7 +61,7 @@ const ChangePassScreen = () => {
                     }
                 }
             )
-            console.log(password1)
+            console.log(res)
         } catch (error) {
             console.log(JSON.stringify(error.message))
         }

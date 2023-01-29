@@ -17,7 +17,7 @@ const SettingScreen = () => {
     const logout = async (token) => {
         try {
             const res = await axios.post(
-                `${BaseURL}/auth/logout`,
+                `${BaseURL}/it4788/auth/logout`,
                 {},
                 {
                     params: {
@@ -29,6 +29,7 @@ const SettingScreen = () => {
             appContext.dispatch({
                 type: 'LOGOUT'
             })
+            navigation.navigate("SignIn")
         } catch (error) {
             console.log(JSON.stringify(error.message))
         }
@@ -38,7 +39,7 @@ const SettingScreen = () => {
         Alert.alert("Alert", "Are you sure to logging out?", [
             {
                 text: "Yes",
-                onPress: () => console.log("logging out")
+                onPress: () => logout(token)
             },
             {
                 text: "Cancel",

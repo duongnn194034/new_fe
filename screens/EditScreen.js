@@ -23,6 +23,7 @@ import axios from 'axios'
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import { BaseURL } from '../ultis/Constants'
 import AppContext from '../context/AppContext'
+import { useNavigation } from '@react-navigation/native';
 
 const MAX_AVATAR_SIZE = 4 * 1024 * 1024;
 var avatarlink, coverlink, typeAvatar, typeCover
@@ -30,6 +31,7 @@ var avatarlink, coverlink, typeAvatar, typeCover
 const EditScreen = () => {
     const netinfo = useNetInfo()
     const appContext = useContext(AppContext)
+    const navigation = useNavigation()
 
     const data = appContext.loginState
     // { username, description, address, city, country, link, birthday }
@@ -155,7 +157,8 @@ const EditScreen = () => {
                     }
                 }
             )
-            console.log(res.data)
+            navigation.navigate("Profile")
+            // console.log(res.data)
         } catch (error) {
             console.log(error)
         }
