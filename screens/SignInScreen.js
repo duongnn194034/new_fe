@@ -63,8 +63,6 @@ const SignIn = () => {
                 avatarURL: user_data.avatar,
                 coverImgURL: user_data.coverImage
             })
-            console.log(user_data)
-            console.log(res.data.data)
             navigation.navigate("Profile")
         } catch (error) {
             console.log(error)

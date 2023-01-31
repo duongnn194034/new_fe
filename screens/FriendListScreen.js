@@ -5,6 +5,7 @@ import React, { useContext } from 'react'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import AppContext from '../context/AppContext'
+import { avatar_basic } from '../ultis/Constants'
 
 const FriendListScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -31,14 +32,14 @@ const FriendListScreen = ({ route }) => {
                     marginLeft: 20
                 }}>
                 <Image
-                    source={item.avatar}
+                    source={{ uri: (item.avatar) ? item.avatar : avatar_basic.uri }}
                     style={{
                         width: 60,
                         height: 60,
                         borderRadius: 100,
                     }}
                 />
-                <Text style={{ marginLeft: 16, fontFamily: FONTS.medium }}>{item.name}</Text>
+                <Text style={{ marginLeft: 16, fontFamily: FONTS.medium }}>{item.username}</Text>
             </TouchableOpacity>
         )
     }

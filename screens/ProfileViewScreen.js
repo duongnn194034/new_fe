@@ -8,7 +8,7 @@ import AppContext from '../context/AppContext'
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import Separator from '../components/Separator'
 import SeparatorSmall from '../components/SeparatorSmall'
-import { BaseURL } from '../ultis/Constants'
+import { avatar_basic, BaseURL, coverImage_basic } from '../ultis/Constants'
 
 
 
@@ -16,7 +16,7 @@ const ProfileViewScreen = ({ route }) => {
     const navigation = useNavigation();
     const appContext = useContext(AppContext);
 
-    const { id, avatar, name } = route.params.item
+    const { id, avatar, username, coverImage } = route.params.item
     const [friend, setFriend] = useState(0)
     const [block, setBlock] = useState(0)
     const [friendState, setFriendState] = useState("Bạn bè")
@@ -146,7 +146,7 @@ const ProfileViewScreen = ({ route }) => {
                     alignItems: "center"
                 }}>
                     <Image
-                        source={assets.coverImg}
+                        source={{ uri: coverImage ? coverImage : coverImage_basic.uri }}
                         resizeMode="cover"
                         style={{ height: 250, width: "100%" }}
                     />
@@ -160,11 +160,11 @@ const ProfileViewScreen = ({ route }) => {
                             justifyContent: "center"
                         }}>
                         <Image
-                            source={avatar}
+                            source={{ uri: avatar ? avatar : avatar_basic.uri }}
                             resizeMode="cover"
                             style={{ width: 160, height: 160, alignSelf: "center", borderRadius: 300, }} />
                     </View>
-                    <Text style={{ fontFamily: FONTS.semiBold, fontSize: SIZES.extraLarge, marginTop: 10, }}>{name}</Text>
+                    <Text style={{ fontFamily: FONTS.semiBold, fontSize: SIZES.extraLarge, marginTop: 10, }}>{username}</Text>
                     <View style={{ width: "100%", height: 60, flexDirection: "row" }}>
                         <TouchableOpacity
                             onPress={() => checkFriend(friend)}

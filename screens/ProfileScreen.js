@@ -40,8 +40,6 @@ const ProfileScreen = () => {
             }
         )
         Data = res.data.data.friends
-        console.log(JSON.stringify(res.data.data.friends))
-        console.log(Data)
         navigation.navigate("FriendList", Data)
     }
 
@@ -136,7 +134,7 @@ const ProfileScreen = () => {
                             resizeMode="cover"
                             style={{ width: 160, height: 160, alignSelf: "center", borderRadius: 300, }} />
                     </View>
-                    <Text style={{ fontFamily: FONTS.semiBold, fontSize: SIZES.extraLarge, marginTop: 10, }}>Nguyễn Đức Minh</Text>
+                    <Text style={{ fontFamily: FONTS.semiBold, fontSize: SIZES.extraLarge, marginTop: 10, }}>{data.username}</Text>
                     <View style={{ width: "100%", height: 60, flexDirection: "row" }}>
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Edit")}
@@ -218,7 +216,6 @@ const ProfileScreen = () => {
 
                         <TouchableOpacity
                             onPress={get_list_friends}
-                            // onPress={() => navigation.navigate("FriendList", DATA)}
                             style={{
                                 backgroundColor: "#DDDDDD",
                                 height: 40,

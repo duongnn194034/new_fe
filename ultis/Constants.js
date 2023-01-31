@@ -10,14 +10,14 @@ export const FEMALE = "female";
 export const NO_GENDER = "secret";
 
 // server:
-export const BaseURL = "https://3a9e-2405-4803-fe27-5900-94da-3b5-293a-2c0b.ap.ngrok.io"
+export const BaseURL = "https://b8d6-2405-4803-fe27-5900-58d0-2ab5-4a97-a57a.ap.ngrok.io"
 
 // image:
-export const avatar = {
+export const avatar_basic = {
     filename: "avatar",
-    uri: "https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/avatar.jpg?alt=media&token=34284f2a-7633-412e-9469-cd06281f3a04"
+    uri: "https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/stock_avatar.jpg?alt=media&token=778bec4b-00bb-481d-bdd9-e2b5ac55aa99"
 }
-export const coverImage = {
+export const coverImage_basic = {
     filename: "coverImage",
-    uri: "https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/cover_img.jpg?alt=media&token=70adfc16-843c-458e-8b56-c261ad76013a"
+    uri: "https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/stock_anh_bia.png?alt=media&token=d108d981-401d-4ae7-b6d2-6837ae745027"
 }

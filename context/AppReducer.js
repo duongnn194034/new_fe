@@ -1,4 +1,4 @@
-import { avatar, coverImage } from "../ultis/Constants"
+import { avatar_basic, coverImage_basic } from "../ultis/Constants"
 
 export const reducer = (state, action) => {
     switch (action.type) {
@@ -14,8 +14,8 @@ export const reducer = (state, action) => {
                 country: action.city,
                 link: action.link,
                 birthday: action.birthday,
-                avatarURL: (action.avatarURL) ?  action.avatarURL : avatar.uri,
-                coverImgURL: (action.coverImgURL) ?  action.coverImgURL : coverImage.uri 
+                avatarURL: (action.avatarURL) ?  action.avatarURL : avatar_basic.uri,
+                coverImgURL: (action.coverImgURL) ?  action.coverImgURL : coverImage_basic.uri 
             }
         case 'LOGOUT': {
             return {
