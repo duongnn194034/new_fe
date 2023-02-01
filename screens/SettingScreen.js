@@ -29,7 +29,7 @@ const SettingScreen = () => {
             appContext.dispatch({
                 type: 'LOGOUT'
             })
-            navigation.navigate("SignIn")
+            navigation.push("SignIn")
         } catch (error) {
             console.log(JSON.stringify(error.message))
         }
@@ -53,7 +53,7 @@ const SettingScreen = () => {
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("ChangePass")}
+                    onPress={() => navigation.push("ChangePass")}
                     style={{
                         width: "90%",
                         height: 48,

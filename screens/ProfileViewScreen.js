@@ -7,34 +7,33 @@ import AppContext from '../context/AppContext'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import Separator from '../components/Separator'
-import SeparatorSmall from '../components/SeparatorSmall'
 import { avatar_basic, BaseURL, coverImage_basic } from '../ultis/Constants'
 
 
 
 const ProfileViewScreen = ({ route }) => {
-    const navigation = useNavigation();
-    const appContext = useContext(AppContext);
+    const navigation = useNavigation()
+    const appContext = useContext(AppContext)
 
-    const { id, avatar, username, coverImage } = route.params.item
-    const [friend, setFriend] = useState(0)
+    const { id, avatar, username, coverImage, friendState, created } = route.params.item
+    const [friend, setFriend] = useState(friendState)
     const [block, setBlock] = useState(0)
-    const [friendState, setFriendState] = useState("Bạn bè")
+    const [friendStateInit, setFriendState] = useState("Bạn bè")
 
     useEffect(() => {
-        if (friend == 0) {
+        if (friend == "0") {
             setFriendState("Thêm bạn bè")
-        }
-        if (friend == 2 || friend == 1) {
+        }else if (friend == "1") {
             setFriendState("Hủy yêu cầu")
         }
     }, [friend])
+
     const checkFriend = (friend) => {
-        if (friend == 0) {
-            setFriend(1)
+        if (friend == "0") {
+            setFriend("1")
         }
-        if (friend == 2 || friend == 1) {
-            setFriend(0)
+        if (friend == "2" || friend == "1") {
+            setFriend("0")
         }
     }
 
@@ -51,6 +50,7 @@ const ProfileViewScreen = ({ route }) => {
                 }
             }
         )
+        setBlock(1)
         console.log(res)
     }
 
@@ -70,7 +70,7 @@ const ProfileViewScreen = ({ route }) => {
 
     const getFriends = async () => {
         const res = await axios.post(
-            `${BaseURL}/friend/get_user_friends`,
+            `${BaseURL}/it4788/friend/get_user_friends`,
             {},
             {
                 params: {
@@ -81,8 +81,9 @@ const ProfileViewScreen = ({ route }) => {
                 }
             }
         )
-
         console.log(JSON.stringify(res.data.data.friends))
+        const data = res.data.data.friends
+        navigation.push("FriendList", data)
 
         return res;
     }
@@ -123,7 +124,7 @@ const ProfileViewScreen = ({ route }) => {
     const Item = ({ item }) => {
         return (
             <TouchableOpacity
-                onPress={() => navigation.navigate("ProfileView", { item })}
+                onPress={() => navigation.push("ProfileView", { item })}
                 style={{ alignItems: "center", marginHorizontal: 5 }}>
                 <Image
                     source={item.avatar}
@@ -188,11 +189,11 @@ const ProfileViewScreen = ({ route }) => {
                                     margin: 2
                                 }}
                             />
-                            <Text style={{ color: "white", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>{friendState}</Text>
+                            <Text style={{ color: "white", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>{friendStateInit}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("Setting")}
+                            onPress={() => navigation.push("Setting")}
                             style={{
                                 flex: 1,
                                 flexDirection: 'row',
@@ -247,7 +248,7 @@ const ProfileViewScreen = ({ route }) => {
                             <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.medium }}>Giới thiệu</Text>
                         </View>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("EditView")}
+                            onPress={() => navigation.push("EditView")}
                             style={{
                                 alignItems: "center",
                                 justifyContent: "center",
@@ -281,7 +282,7 @@ const ProfileViewScreen = ({ route }) => {
                         </View>
 
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("FriendList", DATA)}
+                            onPress={getFriends}
                             style={{
                                 backgroundColor: "#DDDDDD",
                                 height: 40,

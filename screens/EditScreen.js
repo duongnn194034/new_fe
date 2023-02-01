@@ -157,8 +157,19 @@ const EditScreen = () => {
                     }
                 }
             )
-            navigation.navigate("Profile")
-            // console.log(res.data)
+            appContext.dispatch({
+                type: "CHANGE_INFO_USER",
+                username: username,
+                description: description,
+                address: address,
+                city: city,
+                country: country,
+                link: link,
+                birthday: birthday,
+                avatarURL: avatar,
+                coverImgURL: cover
+            })
+            navigation.push("Profile")
         } catch (error) {
             console.log(error)
         }

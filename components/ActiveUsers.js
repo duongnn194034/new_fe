@@ -5,7 +5,7 @@ import { responsiveFontSize, responsiveHeight } from "react-native-responsive-di
 const ActiveUsers = ({ name, profile, navigation }) => {
 
     const onPressHanlder = () => {
-        navigation.navigate('ChatView')
+        navigation.push('ChatView')
     }
 
     return (

@@ -6,7 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 const Chat = ( {name, message, hasSeen, isLastMessageYours, time, profilePicture, seenPicture, navigation} ) => {
 
     const onPressHanlder = () => {
-        navigation.navigate('ChatView')
+        navigation.push('ChatView')
     }
 
     return (

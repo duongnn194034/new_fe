@@ -33,7 +33,7 @@ const SignUp = () => {
 
     };
     const onReturnPressed = () => {
-        navigation.navigate('SignIn')
+        navigation.push('SignIn')
     };
     const onNextPressed = async () => {
         if (passwordRe != password) {
@@ -98,7 +98,7 @@ const SignUp = () => {
                         }
                     })
                 console.log(res.data)
-                navigation.navigate("SignIn")
+                navigation.push("SignIn")
             } catch (error) {
                 Alert.alert("Lỗi số điện thoại",
                     "Số điện thoại đã được sử dụng",

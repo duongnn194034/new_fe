@@ -17,9 +17,8 @@ const ProfileScreen = () => {
     const navigation = useNavigation();
     const appContext = useContext(AppContext);
 
-    // console.log(appContext.loginState)
     const data = appContext.loginState
-    console.log(data)
+    // console.log(data)
 
     const [avatarURL, setAUrl] = useState(data.avatarURL)
     const [coverURL, setCUrl] = useState(data.coverImgURL)
@@ -39,8 +38,9 @@ const ProfileScreen = () => {
                 }
             }
         )
+        console.log(res.data)
         Data = res.data.data.friends
-        navigation.navigate("FriendList", Data)
+        navigation.push("FriendList", Data)
     }
 
     const DATA = [
@@ -94,7 +94,7 @@ const ProfileScreen = () => {
     const Item = ({ item }) => {
         return (
             <TouchableOpacity
-                onPress={() => navigation.navigate("ProfileView", { item })}
+                onPress={() => navigation.push("ProfileView", { item })}
                 style={{ alignItems: "center", marginHorizontal: 5 }}>
                 <Image
                     source={item.avatar}
@@ -137,7 +137,7 @@ const ProfileScreen = () => {
                     <Text style={{ fontFamily: FONTS.semiBold, fontSize: SIZES.extraLarge, marginTop: 10, }}>{data.username}</Text>
                     <View style={{ width: "100%", height: 60, flexDirection: "row" }}>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("Edit")}
+                            onPress={() => navigation.push("Edit")}
                             style={{
                                 flex: 5,
                                 backgroundColor: "#1877f2",
@@ -152,7 +152,7 @@ const ProfileScreen = () => {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("Setting")}
+                            onPress={() => navigation.push("Setting")}
                             style={{
                                 flex: 1,
                                 backgroundColor: "#DDDDDD",

@@ -48,7 +48,7 @@ const ChatNavigator = () => {
                             title: null,
                             headerRight: () => {
                                 const openUserInfo = () => {
-                                    navigation.navigate('UserInfo')
+                                    navigation.push('UserInfo')
                                 }
                                 return (
                                     <View style={styles.chatViewHeaderRightContainer}>
@@ -66,7 +66,7 @@ const ChatNavigator = () => {
                             },
                             headerLeft: () => {
                                 const openUserInfo = () => {
-                                    navigation.navigate('UserInfo')
+                                    navigation.push('UserInfo')
                                 }
                                 return (
                                     <View style={styles.chatViewHeaderLeftContainer}>

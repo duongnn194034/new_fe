@@ -48,7 +48,6 @@ const SignIn = () => {
             )
             const user_data = res.data.data
 
-            
             appContext.dispatch({
                 type: 'LOGIN',
                 user_id: user_data.id,
@@ -61,9 +60,11 @@ const SignIn = () => {
                 link: user_data.link,
                 birthday: user_data.birthday.slice(0, 10),
                 avatarURL: user_data.avatar,
-                coverImgURL: user_data.coverImage
+                coverImgURL: user_data.coverImage,
+                friend_list: user_data.friend_list,
+                block_list: user_data.block_list
             })
-            navigation.navigate("Profile")
+            navigation.push("Profile")
         } catch (error) {
             console.log(error)
             Alert.alert(
@@ -80,7 +81,7 @@ const SignIn = () => {
     };
 
     const onSignUpPressed = () => {
-        navigation.navigate("SignUp")
+        navigation.push("SignUp")
     };
 
 

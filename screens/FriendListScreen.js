@@ -12,6 +12,7 @@ const FriendListScreen = ({ route }) => {
     const appContext = useContext(AppContext);
 
     const friend_data = route.params
+    console.log(friend_data)
 
     if (JSON.stringify(friend_data) == JSON.stringify([])) {
         return (
@@ -24,7 +25,7 @@ const FriendListScreen = ({ route }) => {
     const FriendItem = ({ item }) => {
         return (
             <TouchableOpacity
-                onPress={() => navigation.navigate("ProfileView", { item })}
+                onPress={() => navigation.push("ProfileView", { item })}
                 style={{
                     flexDirection: 'row',
                     alignItems: "center",

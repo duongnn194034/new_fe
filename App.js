@@ -30,7 +30,9 @@ export default function App() {
     link: null,
     birthday: null,
     avatarURL: null,
-    coverImgURL: null
+    coverImgURL: null,
+    friend_list: [],
+    block_list: []
   }
 
   const [loginState, dispatch] = useReducer(reducer, initLoginState);

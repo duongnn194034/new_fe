@@ -11,11 +11,13 @@ export const reducer = (state, action) => {
                 description: action.description,
                 address: action.address,
                 city: action.city,
-                country: action.city,
+                country: action.country,
                 link: action.link,
                 birthday: action.birthday,
                 avatarURL: (action.avatarURL) ?  action.avatarURL : avatar_basic.uri,
-                coverImgURL: (action.coverImgURL) ?  action.coverImgURL : coverImage_basic.uri 
+                coverImgURL: (action.coverImgURL) ?  action.coverImgURL : coverImage_basic.uri,
+                friend_list: action.friend_list ? action.friend_list : [],
+                block_list: action.block_list ? action.block_list : []
             }
         case 'LOGOUT': {
             return {
@@ -30,22 +32,24 @@ export const reducer = (state, action) => {
                 link: null,
                 birthday: null,
                 avatarURL: null,
-                coverImgURL: null
+                coverImgURL: null,
+                friend_list: [],
+                block_list: []
             }
         }
-        case 'CHANG_USER_NAME': {
+        case 'CHANGE_INFO_USER': {
             return {
                 ...state,
-                username: action.username
+                username: action.username,
+                description: action.description,
+                address: action.address,
+                city: action.city,
+                country: action.country,
+                link: action.link,
+                birthday: action.birthday,
+                avatarURL: (action.avatarURL) ?  action.avatarURL : avatar_basic.uri,
+                coverImgURL: (action.coverImgURL) ?  action.coverImgURL : coverImage_basic.uri
             }
         }
-        case 'CHANG_AVATAR': {
-            return {
-                ...state,
-                avatarURL: action.avatarURL,
-                coverImgURL: action.coverImgURL
-            }
-        }
-
     }
 }
