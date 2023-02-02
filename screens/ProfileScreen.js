@@ -11,37 +11,11 @@ import { assets, COLORS, FONTS, SIZES } from '../constants'
 import Separator from '../components/Separator'
 import { BaseURL } from '../ultis/Constants'
 
-const MAX_IMAGE_SIZE = 4 * 1024 * 1024
-
 const ProfileScreen = () => {
     const navigation = useNavigation();
     const appContext = useContext(AppContext);
 
     const data = appContext.loginState
-    // console.log(data)
-
-    const [avatarURL, setAUrl] = useState(data.avatarURL)
-    const [coverURL, setCUrl] = useState(data.coverImgURL)
-
-    let Data = []
-
-    const get_list_friends = async () => {
-        const res = await axios.post(
-            `${BaseURL}/it4788/friend/get_user_friends`,
-            {},
-            {
-                params: {
-                    token: data.token,
-                    index: 0,
-                    count: 20,
-                    user_id: data.user_id
-                }
-            }
-        )
-        console.log(res.data)
-        Data = res.data.data.friends
-        navigation.push("FriendList", Data)
-    }
 
     const DATA = [
         {
@@ -116,7 +90,7 @@ const ProfileScreen = () => {
                     alignItems: "center"
                 }}>
                     <Image
-                        source={{ uri: coverURL }}
+                        source={{ uri: data.coverImgURL }}
                         resizeMode="cover"
                         style={{ height: 250, width: "100%" }}
                     />
@@ -130,7 +104,7 @@ const ProfileScreen = () => {
                             justifyContent: "center"
                         }}>
                         <Image
-                            source={{ uri: avatarURL }}
+                            source={{ uri: data.avatarURL }}
                             resizeMode="cover"
                             style={{ width: 160, height: 160, alignSelf: "center", borderRadius: 300, }} />
                     </View>
@@ -215,7 +189,7 @@ const ProfileScreen = () => {
                         </View>
 
                         <TouchableOpacity
-                            onPress={get_list_friends}
+                            onPress={() => navigation.push("FriendList", data.friend_list)}
                             style={{
                                 backgroundColor: "#DDDDDD",
                                 height: 40,

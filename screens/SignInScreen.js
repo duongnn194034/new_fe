@@ -47,7 +47,6 @@ const SignIn = () => {
                 }
             )
             const user_data = res.data.data
-
             appContext.dispatch({
                 type: 'LOGIN',
                 user_id: user_data.id,
@@ -60,11 +59,82 @@ const SignIn = () => {
                 link: user_data.link,
                 birthday: user_data.birthday.slice(0, 10),
                 avatarURL: user_data.avatar,
-                coverImgURL: user_data.coverImage,
-                friend_list: user_data.friend_list,
-                block_list: user_data.block_list
+                coverImgURL: user_data.coverImage
             })
             navigation.push("Profile")
+
+            // get_list_friend
+            try {
+                const res_friend = await axios.post(
+                    `${BaseURL}/it4788/friend/get_user_friends`,
+                    {},
+                    {
+                        params: {
+                            token: user_data.token,
+                            index: 0,
+                            count: 20,
+                            user_id: user_data.user_id
+                        }
+                    }
+                )
+                console.log(res_friend.data.data.friends)
+                appContext.dispatch({
+                    type: 'SET_FRIEND_LIST',
+                    friend_list: res_friend.data.data.friends
+                })
+            } catch (error) {
+                appContext.dispatch({
+                    type: 'SET_FRIEND_LIST_EMPTY'
+                })
+            }
+
+            // get_list_block
+            try {
+                const res_block = await axios.post(
+                    `${BaseURL}/it4788/friend/get_list_blocks`,
+                    {},
+                    {
+                        params: {
+                            token: user_data.token,
+                            index: 0,
+                            count: 10
+                        }
+                    }
+                )
+                console.log(res_block.data.data)
+                appContext.dispatch({
+                    type: 'SET_BLOCKED_LIST',
+                    block_list: res_block.data.data.blockedList
+                })
+            } catch (error) {
+                appContext.dispatch({
+                    type: 'SET_BLOCKED_LIST_EMPTY'
+                })
+            }
+
+            // get_request_received
+            try {
+                const res_block = await axios.post(
+                    `${BaseURL}/it4788/friend/get_requested_friends`,
+                    {},
+                    {
+                        params: {
+                            token: user_data.token,
+                            index: 0,
+                            count: 100
+                        }
+                    }
+                )
+                console.log(res_block.data.data)
+                appContext.dispatch({
+                    type: 'SET_RECEIVE_LIST',
+                    requested_receive: res_block.data.data.friendRequestReceived
+                })
+            } catch (error) {
+                appContext.dispatch({
+                    type: 'SET_RECEIVE_LIST_EMPTY'
+                })
+            }
         } catch (error) {
             console.log(error)
             Alert.alert(

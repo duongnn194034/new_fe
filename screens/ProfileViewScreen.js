@@ -7,38 +7,18 @@ import AppContext from '../context/AppContext'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import Separator from '../components/Separator'
-import { avatar_basic, BaseURL, coverImage_basic } from '../ultis/Constants'
-
-
+import { avatar_basic, BaseURL, coverImage_basic, DATA } from '../ultis/Constants'
 
 const ProfileViewScreen = ({ route }) => {
     const navigation = useNavigation()
     const appContext = useContext(AppContext)
 
-    const { id, avatar, username, coverImage, friendState, created } = route.params.item
+    const { id, avatar, username, coverImage, friendState } = route.params.item
     const [friend, setFriend] = useState(friendState)
     const [block, setBlock] = useState(0)
     const [friendStateInit, setFriendState] = useState("Bạn bè")
 
-    useEffect(() => {
-        if (friend == "0") {
-            setFriendState("Thêm bạn bè")
-        }else if (friend == "1") {
-            setFriendState("Hủy yêu cầu")
-        }
-    }, [friend])
-
-    const checkFriend = (friend) => {
-        if (friend == "0") {
-            setFriend("1")
-        }
-        if (friend == "2" || friend == "1") {
-            setFriend("0")
-        }
-    }
-
     const blockUser = async () => {
-        // api call
         const res = await axios.post(
             `${BaseURL}/friend/set_block`,
             {},
@@ -82,44 +62,11 @@ const ProfileViewScreen = ({ route }) => {
             }
         )
         console.log(JSON.stringify(res.data.data.friends))
-        const data = res.data.data.friends
-        navigation.push("FriendList", data)
+        const DATA = res.data.data.friends
+        navigation.push("FriendList", DATA)
 
         return res;
     }
-
-    const DATA = [
-        {
-            id: "1",
-            avatar: assets.zoro_avatar,
-            name: "Zoro",
-        },
-        {
-            id: "2",
-            avatar: assets.nami_avatar,
-            name: "Nami",
-        },
-        {
-            id: "3",
-            avatar: assets.sanji_avatar,
-            name: "Sanji",
-        },
-        {
-            id: "4",
-            avatar: assets.zoro_avatar,
-            name: "Zoro",
-        },
-        {
-            id: "5",
-            avatar: assets.nami_avatar,
-            name: "Nami",
-        },
-        {
-            id: "6",
-            avatar: assets.sanji_avatar,
-            name: "Sanji",
-        },
-    ]
 
     const Item = ({ item }) => {
         return (

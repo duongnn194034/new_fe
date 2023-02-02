@@ -5,14 +5,29 @@ import React, { useContext } from 'react'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import AppContext from '../context/AppContext'
-import { avatar_basic } from '../ultis/Constants'
+import { avatar_basic, BaseURL } from '../ultis/Constants'
 
 const FriendListScreen = ({ route }) => {
     const navigation = useNavigation();
     const appContext = useContext(AppContext);
 
     const friend_data = route.params
-    console.log(friend_data)
+    // console.log(friend_data)
+
+    // get_friend_info
+    const get_item_info = async (userId) => {
+        const res = await axios.post(
+            `${BaseURL}/it4788/user/get_user_info`,
+            {},
+            {
+                params: {
+                    token: appContext.loginState.token,
+                    user_id: userId
+                }
+            }
+        )
+        console.log(res.data.data)
+    }
 
     if (JSON.stringify(friend_data) == JSON.stringify([])) {
         return (
@@ -23,9 +38,11 @@ const FriendListScreen = ({ route }) => {
     }
 
     const FriendItem = ({ item }) => {
+        console.log(item.id)
         return (
             <TouchableOpacity
-                onPress={() => navigation.push("ProfileView", { item })}
+                onPress={() => get_item_info(item.id)}
+                // onPress={() => navigation.push("ProfileView", { item })}
                 style={{
                     flexDirection: 'row',
                     alignItems: "center",

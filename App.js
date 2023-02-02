@@ -32,7 +32,8 @@ export default function App() {
     avatarURL: null,
     coverImgURL: null,
     friend_list: [],
-    block_list: []
+    block_list: [],
+    received: []
   }
 
   const [loginState, dispatch] = useReducer(reducer, initLoginState);

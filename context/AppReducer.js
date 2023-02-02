@@ -34,7 +34,8 @@ export const reducer = (state, action) => {
                 avatarURL: null,
                 coverImgURL: null,
                 friend_list: [],
-                block_list: []
+                block_list: [],
+                received: []
             }
         }
         case 'CHANGE_INFO_USER': {
@@ -49,6 +50,42 @@ export const reducer = (state, action) => {
                 birthday: action.birthday,
                 avatarURL: (action.avatarURL) ?  action.avatarURL : avatar_basic.uri,
                 coverImgURL: (action.coverImgURL) ?  action.coverImgURL : coverImage_basic.uri
+            }
+        }
+        case 'SET_FRIEND_LIST_EMPTY': {
+            return {
+                ...state,
+                friend_list: []
+            }
+        }
+        case 'SET_BLOCKED_LIST_EMPTY': {
+            return {
+                ...state,
+                block_list: []
+            }
+        }
+        case 'SET_FRIEND_LIST': {
+            return {
+                ...state,
+                friend_list: action.friend_list
+            }
+        }
+        case 'SET_BLOCKED_LIST': {
+            return {
+                ...state,
+                block_list: action.block_list
+            }
+        }
+        case 'SET_RECEIVE_LIST_EMPTY': {
+            return {
+                ...state,
+                received: []
+            }
+        }
+        case 'SET_RECEIVE_LIST': {
+            return {
+                ...state,
+                received: action.received
             }
         }
     }
