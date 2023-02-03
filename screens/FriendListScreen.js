@@ -26,7 +26,13 @@ const FriendListScreen = ({ route }) => {
                 }
             }
         )
-        console.log(res.data.data)
+        const user_info = res.data.data
+        console.log(user_info)
+        if (user_info.id == appContext.loginState.user_id) {
+            navigation.navigate("Profile")
+        } else {
+            navigation.push("ProfileView", {user_info})
+        }
     }
 
     if (JSON.stringify(friend_data) == JSON.stringify([])) {
@@ -42,7 +48,6 @@ const FriendListScreen = ({ route }) => {
         return (
             <TouchableOpacity
                 onPress={() => get_item_info(item.id)}
-                // onPress={() => navigation.push("ProfileView", { item })}
                 style={{
                     flexDirection: 'row',
                     alignItems: "center",

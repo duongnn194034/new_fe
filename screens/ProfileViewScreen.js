@@ -7,16 +7,235 @@ import AppContext from '../context/AppContext'
 
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 import Separator from '../components/Separator'
-import { avatar_basic, BaseURL, coverImage_basic, DATA } from '../ultis/Constants'
+import { avatar_basic, BaseURL, coverImage_basic } from '../ultis/Constants'
 
 const ProfileViewScreen = ({ route }) => {
     const navigation = useNavigation()
     const appContext = useContext(AppContext)
 
-    const { id, avatar, username, coverImage, friendState } = route.params.item
-    const [friend, setFriend] = useState(friendState)
+    const { id, avatar, username, coverImage, is_friend, description, birthday } = route.params.user_info
+    const user_state = route.params.user_info
     const [block, setBlock] = useState(0)
-    const [friendStateInit, setFriendState] = useState("Bạn bè")
+    const [friendState, setFriendState] = useState("")
+    const [friend, setFriend] = useState(is_friend)
+
+    const sentFriendRequest = async () => {
+        try {
+            const res = await axios.post(
+                `${BaseURL}/it4788/friend/set_request_friend`,
+                {},
+                {
+                    params: {
+                        token: appContext.loginState.token,
+                        user_id: id
+                    }
+                }
+            )
+            console.log(res.data)
+            setFriend('1')
+        } catch (error) {
+            Alert.alert(
+                "Không thể thao tác",
+                "Kiểm tra lại thiết bị và kết nối của bạn, hiện tại không thể xứ lý yêu cầu",
+                {
+                    text: "OK",
+                    style: 'cancel'
+                }
+
+            )
+            console.log("sentFriendRequest " + error)
+        }
+    }
+
+    const unFriend = async () => {
+        try {
+            const res = await axios.post(
+                `${BaseURL}/it4788/friend/delete_friend`,
+                {},
+                {
+                    params: {
+                        token: appContext.loginState.token,
+                        user_id: id
+                    }
+                }
+            )
+            console.log(res.data)
+            setFriend('0')
+        } catch (error) {
+            Alert.alert(
+                "Không thể thao tác",
+                "Kiểm tra lại thiết bị và kết nối của bạn, hiện tại không thể xứ lý yêu cầu",
+                {
+                    text: "OK",
+                    style: 'cancel'
+                }
+
+            )
+            console.log("unFriend " + error)
+        }
+    }
+
+    const unRequest = async () => {
+        try {
+            const res = await axios.post(
+                `${BaseURL}/it4788/friend/set_request_friend`,
+                {},
+                {
+                    params: {
+                        token: appContext.loginState.token,
+                        user_id: id
+                    }
+                }
+            )
+            console.log(res)
+            setFriend('0')
+        } catch (error) {
+            Alert.alert(
+                "Không thể thao tác",
+                "Kiểm tra lại thiết bị và kết nối của bạn, hiện tại không thể xứ lý yêu cầu",
+                {
+                    text: "OK",
+                    style: 'cancel'
+                }
+
+            )
+            console.log("unRequest " + error)
+        }
+    }
+
+    const denyRequest = async () => {
+        try {
+            const res = await axios.post(
+                `${BaseURL}/it4788/friend/set_accept_friend`,
+                {},
+                {
+                    params: {
+                        token: appContext.loginState.token,
+                        user_id: id
+                    }
+                }
+            )
+            console.log(res)
+            setFriend('0')
+        } catch (error) {
+            Alert.alert(
+                "Không thể thao tác",
+                "Kiểm tra lại thiết bị và kết nối của bạn, hiện tại không thể xứ lý yêu cầu",
+                {
+                    text: "OK",
+                    style: 'cancel'
+                }
+
+            )
+            console.log(error)
+        }
+    }
+
+    const make_friend_choice = () => {
+        if (friendState == "Bạn bè") {
+            Alert.alert(
+                "Hủy kết bạn",
+                `Bạn muốn hủy kết bạn với ${username}`,
+                [
+                    {
+                        text: "OK",
+                        onPress: unFriend
+                    },
+                    {
+                        text: "Hủy",
+                        style: 'cancel'
+                    }
+                ]
+            )
+        } else if (friendState == "Hủy lời mời") {
+            Alert.alert(
+                "Hủy kết bạn",
+                `Bạn muốn hủy lời mời kết bạn gửi đến ${username}`,
+                [
+                    {
+                        text: "OK",
+                        onPress: unRequest
+                    },
+                    {
+                        text: "Hủy",
+                        style: 'cancel'
+                    }
+                ]
+            )
+        } else if (friendState == "Từ chối lời mời") {
+            Alert.alert(
+                "Từ chối",
+                `Bạn muốn từ chối lời mời kết bạn của ${username}`,
+                [
+                    {
+                        text: "OK",
+                        onPress: denyRequest
+                    },
+                    {
+                        text: "Hủy",
+                        style: 'cancel'
+                    }
+                ]
+            )
+        } else if (friendState == "Kết bạn") {
+            sentFriendRequest()
+        }
+    }
+
+    const DATA = [
+        {
+            id: "1",
+            avatar: assets.zoro_avatar,
+            name: "Zoro",
+        },
+        {
+            id: "2",
+            avatar: assets.nami_avatar,
+            name: "Nami",
+        },
+        {
+            id: "3",
+            avatar: assets.sanji_avatar,
+            name: "Sanji",
+        },
+        {
+            id: "4",
+            avatar: assets.robin_avatar,
+            name: "Robin",
+        },
+        {
+            id: "5",
+            avatar: assets.chopper,
+            name: "Chopper",
+        },
+        {
+            id: "6",
+            avatar: assets.franky,
+            name: "Franky",
+        },
+        {
+            id: "7",
+            avatar: assets.brook,
+            name: "Brook",
+        },
+        {
+            id: "8",
+            avatar: assets.usopp_avatar,
+            name: "Usopp",
+        },
+        {
+            id: "9",
+            avatar: assets.jimbei,
+            name: "Jimbei",
+        },
+    ]
+
+    useEffect(() => {
+        if (friend == '3') setFriendState("Bạn bè")
+        else if (friend == '0') setFriendState("Kết bạn")
+        else if (friend == '1') setFriendState("Hủy lời mời")
+        else if (friend == '2') setFriendState("Từ chối")
+    }, [friend])
 
     const blockUser = async () => {
         const res = await axios.post(
@@ -61,7 +280,6 @@ const ProfileViewScreen = ({ route }) => {
                 }
             }
         )
-        console.log(JSON.stringify(res.data.data.friends))
         const DATA = res.data.data.friends
         navigation.push("FriendList", DATA)
 
@@ -115,7 +333,7 @@ const ProfileViewScreen = ({ route }) => {
                     <Text style={{ fontFamily: FONTS.semiBold, fontSize: SIZES.extraLarge, marginTop: 10, }}>{username}</Text>
                     <View style={{ width: "100%", height: 60, flexDirection: "row" }}>
                         <TouchableOpacity
-                            onPress={() => checkFriend(friend)}
+                            onPress={make_friend_choice}
                             style={{
                                 flex: 4,
                                 flexDirection: 'row',
@@ -136,7 +354,7 @@ const ProfileViewScreen = ({ route }) => {
                                     margin: 2
                                 }}
                             />
-                            <Text style={{ color: "white", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>{friendStateInit}</Text>
+                            <Text style={{ color: "white", fontFamily: FONTS.semiBold, fontSize: SIZES.medium }}>{friendState}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -195,7 +413,7 @@ const ProfileViewScreen = ({ route }) => {
                             <Text style={{ fontFamily: FONTS.medium, fontSize: SIZES.medium }}>Giới thiệu</Text>
                         </View>
                         <TouchableOpacity
-                            onPress={() => navigation.push("EditView")}
+                            onPress={() => navigation.push("EditView", user_state)}
                             style={{
                                 alignItems: "center",
                                 justifyContent: "center",

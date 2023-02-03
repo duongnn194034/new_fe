@@ -14,14 +14,9 @@ import {
 } from 'react-native'
 import { assets, COLORS, FONTS, SIZES } from '../constants'
 
-const EditViewScreen = () => {
-    const [username, setUsername] = useState("")
-    const [description, setDescription] = useState("")
-    const [address, setAddress] = useState("")
-    const [city, setCity] = useState("")
-    const [country, setCountry] = useState("")
-    const [link, setLink] = useState("")
-    const [birthday, setBirthday] = useState("")
+const EditViewScreen = ({route}) => {
+
+    const user_profile = route.params
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -36,68 +31,40 @@ const EditViewScreen = () => {
                     </View>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={{ marginBottom: 30 }}>
-                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20, alignItems: "center" }}>
+                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20 }}>
                                 <Text
                                     style={styles.infoText}>Tên</Text>
-                                <Text
-                                    value={username}
-                                    placeholder="Nguyễn Văn A"
-                                    style={styles.infoInput}
-                                />
+                                <Text style={styles.infoInput}>{user_profile.username}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20, alignItems: "center" }}>
+                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20 }}>
                                 <Text
                                     style={styles.infoText}>Tiểu sử</Text>
-                                <Text
-                                    value={description}
-                                    placeholder="Hello I'm A"
-                                    style={styles.infoInput}
-                                />
+                                <Text style={styles.infoInput}>{user_profile.description}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20, alignItems: "center" }}>
+                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20 }}>
                                 <Text
                                     style={styles.infoText}>Địa chỉ</Text>
-                                <Text
-                                    value={address}
-                                    placeholder="Bách Khoa"
-                                    style={styles.infoInput}
-                                />
+                                <Text style={styles.infoInput}>{user_profile.address}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20, alignItems: "center" }}>
+                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20 }}>
                                 <Text
                                     style={styles.infoText}>Thành phố</Text>
-                                <Text
-                                    value={city}
-                                    placeholder="Hà Nội"
-                                    style={styles.infoInput}
-                                />
+                                <Text style={styles.infoInput}>{user_profile.city}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20, alignItems: "center" }}>
+                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20 }}>
                                 <Text
                                     style={styles.infoText}>Quốc gia</Text>
-                                <Text
-                                    value={country}
-                                    placeholder="Việt Nam"
-                                    style={styles.infoInput}
-                                />
+                                <Text style={styles.infoInput}>{user_profile.country}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20, alignItems: "center" }}>
+                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20 }}>
                                 <Text
                                     style={styles.infoText}>Link</Text>
-                                <Text
-                                    value={link}
-                                    placeholder="@insta/ducminhsw"
-                                    style={styles.infoInput}
-                                />
+                                <Text style={styles.infoInput}>{user_profile.link}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20, alignItems: "center" }}>
+                            <View style={{ flexDirection: 'row', margin: 10, marginLeft: 20 }}>
                                 <Text
                                     style={styles.infoText}>Ngày sinh</Text>
-                                <Text
-                                    value={birthday}
-                                    placeholder="YYYY-MM-DD"
-                                    style={styles.infoInput}
-                                />
+                                <Text style={styles.infoInput}>{user_profile.birthday}</Text>
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
