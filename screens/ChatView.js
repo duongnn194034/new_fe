@@ -1,11 +1,54 @@
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
-import React, { useState, Component } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, TextInput, FlatList, Image } from "react-native";
-import { State } from "react-native-gesture-handler";
+import { useNavigation } from '@react-navigation/native'
 import { responsiveFontSize, responsiveHeight } from "react-native-responsive-dimensions";
-import msgList from "../data/msgList";
+import axios from 'axios'
 
-const ChatView = () => {
+import AppContext from "../context/AppContext";
+import { BaseURL } from "../ultis/Constants";
+
+const ChatView = ({route}) => {
+    let flatListMsgRef;
+    const navigation = useNavigation();
+    const appContext = useContext(AppContext);
+
+    // var conversation_Id='';
+    const [conversation_Id, setConversation_Id] = useState('');
+    
+    var MSG_LIST = route.params.data;
+    const partner_id = route.params.partner_id;
+    const conversationId = route.params.conversation_Id
+    
+    const getConversationId = async () => {
+        const res = await axios.post(
+            `${BaseURL}/it4788/chat/get_list_conversation`,
+            {},
+            {
+                params: {   // Login Token
+                    index: 0,
+                    count: 50,
+                    token: appContext.loginState.token
+                }
+            }
+        )
+        const response = res.data.data;
+
+        for(var i in response){
+            // console.log(i)
+            if(JSON.stringify(response[i].partner.id) == JSON.stringify(partner_id)){
+                // conversation_Id = JSON.stringify(response[i].id);
+                setConversation_Id(response[i].id);
+                return;
+            }
+            
+        }
+    }
+
+    useEffect(() => {
+        getConversationId();
+    })
+
 
     const refreshFlatList = (activeKey) => {
         setState((prevState) => {
@@ -13,32 +56,31 @@ const ChatView = () => {
                 deletedRowKey: activeKey
             };
         });
+        flatListMsgRef.scrollToEnd({animated: true})
     }
+
 
     const [state, setState] = useState({
         newMsg: '',
         idCate: 1
     })
-    
-    const sendMsg = () => {
-        console.log('Send msg')
-    }
 
     const generateKey = (numberOfCharacters) => {
         return require('random-string')({length: numberOfCharacters});
     }
-
+    
     return (
         <View style={styles.container}>
-            
+
             <FlatList
-                data={msgList}
-                keyExtractor={item => item.key}
+                ref={(ref) => {flatListMsgRef = ref}}
+                data={MSG_LIST}
+                keyExtractor={item => item.message_id}
                 renderItem={({item, index}) => {
-                    return ( <View>{ item.idCate == 1 ?
+                    return ( <View>{ item.sender.id == appContext.loginState.user_id ? // My ID
                         <View style={styles.sendContainer}>
                             <View style={styles.msgContainer}>
-                                <Text style={styles.sendMsg}>{item.msg}</Text>
+                                <Text style={styles.sendMsg}>{item.message}</Text>
                             </View>
                         </View>
                     :
@@ -47,7 +89,7 @@ const ChatView = () => {
                                 <Image style={styles.proPic} source={{ uri : 'https://i.imgur.com/6oU7JoG.jpg' }} />
                             </View>
                             <View style={styles.receivedMsgContainer}>
-                                <Text style={styles.receivedMsg}>{item.msg}</Text>
+                                <Text style={styles.receivedMsg}>{item.message}</Text>
                             </View>
                         </View>
                 }
@@ -56,7 +98,9 @@ const ChatView = () => {
                     
                 }}
                 style={{flex: 1}}>
+            
             </FlatList>
+            
             <View style={styles.inputContainer}>
                 <View style={styles.sendMsgContainer}>
                     <TextInput
@@ -67,15 +111,46 @@ const ChatView = () => {
                     <Entypo name="emoji-happy" size={responsiveFontSize(2.5)} color="gray" />
                 </View>
 
-                <TouchableOpacity onPress={() => {
-                    const newKey = generateKey(24);
+                <TouchableOpacity onPress={async () => {
+                    getConversationId();
+                    console.log(conversation_Id);
+                    console.log(typeof(conversation_Id));
+                    
+                    if(state.newMsg == ''){
+                        console.log('message is null');
+                        return;
+                    }
+                    const newKey = generateKey(8);
                     const newMessage = {
-                        key: newKey,
-                        msg: state.newMsg,
-                        idCate: 1
+                        message_id: newKey,
+                        message: state.newMsg,
+                        sender: {
+                            id: appContext.loginState.user_id,  // My ID
+                        }
                     };
-                    msgList.push(newMessage);
+                    MSG_LIST.push(newMessage);
                     refreshFlatList(newKey);
+
+                    try {
+                        const res = await axios.post(
+                            `${BaseURL}/it4788/chat/add_dialog`,
+                            {},
+                            {
+                                params: {
+                                    dialogId: generateKey(8),
+                                    conversationId: conversation_Id,  // conversationId
+                                    senderId: appContext.loginState.user_id,   // My ID => firstUser or secondUser
+                                    content: state.newMsg
+                                }
+                            }
+                        )
+                        console.log(res.data)
+                    } catch (error) {
+                        console.log(`error: ${error}`);
+                    }
+
+
+                    
                 }} style={styles.icon}>
                     <FontAwesome5 name="paper-plane" size={responsiveFontSize(3.5)} color="#006AFF" />
                 </TouchableOpacity>

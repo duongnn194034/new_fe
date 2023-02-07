@@ -9,8 +9,10 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
     "@react-native-community/netinfo": "9.3.5",
     "@react-native-firebase/storage": "^16.5.2",
+    "@react-navigation/bottom-tabs": "^6.5.4",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/stack": "^6.3.11",
     "axios": "^1.2.4",
@@ -19,9 +21,11 @@
     "expo-status-bar": "~1.4.2",
     "firebase": "^9.16.0",
     "form-data": "^4.0.0",
+    "random-string": "^0.2.0",
     "react": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-modern-datepicker": "^1.0.0-beta.91"
+    "react-native-modern-datepicker": "^1.0.0-beta.91",
+    "react-native-responsive-dimensions": "^3.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

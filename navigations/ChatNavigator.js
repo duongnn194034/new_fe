@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import HomeChatTabs from "./HomeChatTabs";
-import { Button, Image, StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { Button, Image, StyleSheet, TouchableOpacity, View, Text, Alert } from "react-native";
 import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-dimensions'
 // import HeaderButtons from "../components/HeaderButtons";
 import ChatView from "../screens/ChatView";
 import { FontAwesome, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import UserInfo from "../screens/UserInfo";
+import axios from "axios";
+import AppContext from "../context/AppContext";
+import { BaseURL } from "../ultis/Constants";
 
 const ChatNavigator = () => {
     const Stack = createStackNavigator();
+    const appContext = useContext(AppContext)
+
+    var USER_INFO = [{}];
 
     return (
         <NavigationContainer>
@@ -47,8 +53,42 @@ const ChatNavigator = () => {
                         ({navigation, route}) => ({
                             title: null,
                             headerRight: () => {
-                                const openUserInfo = () => {
-                                    navigation.push('UserInfo')
+                                const openUserInfo = async () => {
+                                    
+                                    console.log(route.params.partner_id);
+                                    try {
+                                        const res = await axios.post(
+                                            `${BaseURL}/it4788/user/get_user_info`,
+                                            {},
+                                            {
+                                                params: {   // Login token
+                                                    token: appContext.loginState.token,
+                                                    user_id: route.params.partner_id
+                                                }
+                                            }
+                                        )
+                                        console.log(res.data.data.username);
+                                        navigation.navigate('UserInfo', {
+                                            name: res.data.data.username,
+                                            user_id: res.data.data.id,
+                                            birthday: res.data.data.birthday,
+                                            description: res.data.data.description
+                                        })
+
+                            
+                                    } catch (error) {
+                                        console.log(`error: ${error}`);
+                                        Alert.alert(
+                                            "Lỗi lấy thông tin",
+                                            "Không thể lấy thông tin User",
+                                            [
+                                                {
+                                                    text: "OK",
+                                                    style: 'cancel'
+                                                }
+                                            ]
+                                        )
+                                    }
                                 }
                                 return (
                                     <View style={styles.chatViewHeaderRightContainer}>
@@ -65,8 +105,41 @@ const ChatNavigator = () => {
                                 )
                             },
                             headerLeft: () => {
-                                const openUserInfo = () => {
-                                    navigation.push('UserInfo')
+                                const openUserInfo = async () => {
+                                    console.log(route.params.partner_id);
+                                    try {
+                                        const res = await axios.post(
+                                            `${BaseURL}/it4788/user/get_user_info`,
+                                            {},
+                                            {
+                                                params: {   // Login token
+                                                    token: appContext.loginState.token,
+                                                    user_id: route.params.partner_id
+                                                }
+                                            }
+                                        )
+                                        console.log(res.data.data.username);
+                                        navigation.navigate('UserInfo', {
+                                            name: res.data.data.username,
+                                            user_id: res.data.data.id,
+                                            birthday: res.data.data.birthday,
+                                            description: res.data.data.description
+                                        })
+
+                            
+                                    } catch (error) {
+                                        console.log(`error: ${error}`);
+                                        Alert.alert(
+                                            "Lỗi lấy thông tin",
+                                            "Không thể lấy thông tin User",
+                                            [
+                                                {
+                                                    text: "OK",
+                                                    style: 'cancel'
+                                                }
+                                            ]
+                                        )
+                                    }
                                 }
                                 return (
                                     <View style={styles.chatViewHeaderLeftContainer}>
@@ -77,7 +150,7 @@ const ChatNavigator = () => {
                                             <Image style={styles.profilePic} source={{ uri: 'https://i.imgur.com/6oU7JoG.jpg' }} />
                                         </View>
                                         <View>
-                                            <Text onPress={openUserInfo} style={styles.name}>Name</Text>
+                                            <Text onPress={openUserInfo} style={styles.name}>{route.params.username}</Text>
                                             {/* <Text style={styles.lastOnlineText}>Active 12 hour ago</Text> */}
                                         </View>
 

@@ -3,44 +3,41 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import { Ionicons } from "@expo/vector-icons";
 
-const Chat = ( {name, message, hasSeen, isLastMessageYours, time, profilePicture, seenPicture, navigation} ) => {
-
-    const onPressHanlder = () => {
-        navigation.push('ChatView')
-    }
+const Chat = ( {name, message, hasSeen, isLastMessageYours, time, profilePicture} ) => {
 
     return (
-        <TouchableOpacity onPress={onPressHanlder} activeOpacity={0.7} style={styles.container}>
-            <View style={styles.proPicContainer}>
-                <Image style={styles.proPic} source={
-                    {
-                        uri: profilePicture
-                    }
-                } />
+            <View style={styles.container}>
+                <View style={styles.proPicContainer}>
+                    <Image style={styles.proPic} source={
+                        {
+                            uri: profilePicture
+                        }
+                    } />
+                </View>
+                <View style={styles.descriptionContainer}>
+                    <View style={styles.nameContainer}>
+                        <Text style={styles.name}>{name}</Text>
+                    </View>
+                    <View style={styles.detailsContainer}>
+                        {
+                            isLastMessageYours ? <Text style={styles.message}>You : {message}</Text> : <Text style={styles.message}>{message}</Text>
+                        }
+                        <Text style={styles.time}>{time}</Text>
+                    </View>
+                </View>
+                {isLastMessageYours && <View style={styles.seenProPicContainer}>
+                    {!hasSeen ? <View style={styles.deliveryMarkContainer}>
+                        <Ionicons name="ios-checkmark" size={responsiveFontSize(1)} color="white" />
+                    </View>
+                    :
+                    <Image style={styles.seenProPic} source={
+                        {
+                            uri: profilePicture
+                        }
+                    } />}
+                </View>}
             </View>
-            <View style={styles.descriptionContainer}>
-                <View style={styles.nameContainer}>
-                    <Text style={styles.name}>{name}</Text>
-                </View>
-                <View style={styles.detailsContainer}>
-                    {
-                        isLastMessageYours ? <Text style={styles.message}>You : {message}</Text> : <Text style={styles.message}>{message}</Text>
-                    }
-                    <Text style={styles.time}>{time}</Text>
-                </View>
-            </View>
-            {isLastMessageYours && <View style={styles.seenProPicContainer}>
-                {!hasSeen ? <View style={styles.deliveryMarkContainer}>
-                    <Ionicons name="ios-checkmark" size={responsiveFontSize(1)} color="white" />
-                </View>
-                :
-                <Image style={styles.seenProPic} source={
-                    {
-                        uri: seenPicture
-                    }
-                } />}
-            </View>}
-        </TouchableOpacity>
+            
     )
 }
 

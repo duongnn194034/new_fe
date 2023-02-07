@@ -230,6 +230,12 @@ const ProfileViewScreen = ({ route }) => {
         },
     ]
 
+    var MSG_LIST = [{}]
+
+    const generateKey = (numberOfCharacters) => {
+        return require('random-string')({length: numberOfCharacters});
+    }
+
     useEffect(() => {
         if (friend == '3') setFriendState("Bạn bè")
         else if (friend == '0') setFriendState("Kết bạn")
@@ -358,7 +364,74 @@ const ProfileViewScreen = ({ route }) => {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={() => navigation.push("Setting")}
+                            onPress={async () => {
+                                try {
+                                    const res = await axios.post(
+                                        `${BaseURL}/it4788/chat/get_conversation`,
+                                        {},
+                                        {
+                                            params:{    // token: token login
+                                                token: appContext.loginState.token,
+                                                index: 0,
+                                                count: 50,
+                                                partner_id: id
+                                            }
+                                        }
+                                    )
+                                    console.log('get conversation');
+                                    // console.log(res.data.data.conversation)
+                        
+                                    MSG_LIST = res.data.data.conversation;
+                                    // console.log(MSG_LIST[0].message);
+                                    
+                                    navigation.navigate('ChatView', {
+                                        data: MSG_LIST,
+                                        partner_id: id,
+                                        username: username,
+                                        conversation_id: ''
+                                    });
+                                    return;
+                                    
+                                } catch (error) {
+                                    console.log(`error: ${error}`)
+                                    console.log('create conversation')
+                                    const newKey = generateKey(5);
+                                    const res = await axios.post(
+                                        `${BaseURL}/it4788/chat/create_conversation`,
+                                        {},
+                                        {
+                                            params:{
+                                                conversationId: newKey,
+                                                firstUser: appContext.loginState.user_id,   // My Id
+                                                secondUser: id
+                                            }
+                                        }
+                                    )
+                        
+                                    console.log(res.data.data)
+                                    
+                        
+                                    MSG_LIST = [
+                                        {
+                                            message_id: generateKey(8),
+                                                message: 'Giờ đây 2 bạn đã có thể nhắn tin cho nhau',
+                                                sender: {
+                                                    id: appContext.loginState.user_id,  // My ID
+                                                }
+                                        }
+                                    ]
+    
+                                    refreshFlatList(generateKey(5));
+                                    
+                                    navigation.navigate('ChatView', {
+                                        data: MSG_LIST,
+                                        partner_id: id,
+                                        username: username,
+                                        conversation_id: newKey
+                                    })
+                        
+                                }
+                            }}
                             style={{
                                 flex: 1,
                                 flexDirection: 'row',
