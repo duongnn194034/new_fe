@@ -27,7 +27,7 @@ const ChatView = ({ route }) => {
     const partner_id = route.params.partner_id
     const conversationId = route.params.conversation_Id
     const avatarChat = route.params.avatar
-    console.log(avatarChat)
+    // console.log(avatarChat)
 
     const getConversationId = async () => {
         const res = await axios.post(
@@ -54,11 +54,8 @@ const ChatView = ({ route }) => {
         }
     }
 
-    useEffect(() => {
-        getConversationId();
-    })
-
-
+    
+    
     const refreshFlatList = (activeKey) => {
         setState((prevState) => {
             return {
@@ -67,16 +64,21 @@ const ChatView = ({ route }) => {
         });
         flatListMsgRef.scrollToEnd({ animated: true })
     }
-
-
+    
+    
     const [state, setState] = useState({
         newMsg: '',
         idCate: 1
     })
-
+    
     const generateKey = (numberOfCharacters) => {
         return require('random-string')({ length: numberOfCharacters });
     }
+    
+    useEffect(() => {
+        getConversationId();
+        flatListMsgRef.scrollToEnd();
+    })
 
     return (
         <SafeAreaView style={styles.container}>
