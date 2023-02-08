@@ -300,7 +300,7 @@ const ProfileViewScreen = ({ route }) => {
                 deletedRowKey: activeKey
             };
         });
-        flatListMsgRef.scrollToEnd({animated: true})
+        // flatListMsgRef.scrollToEnd({animated: true})
     }
 
     const Item = ({ item }) => {

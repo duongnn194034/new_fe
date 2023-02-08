@@ -195,7 +195,7 @@ export default function App() {
                                       <Ionicons name="md-arrow-back" size={responsiveFontSize(3)} color="#006AFF" />
                                   </TouchableOpacity>
                                   <View style={styles.chatViewProPicContainer}>
-                                      <Image style={styles.profilePic} source={{ uri: 'https://i.imgur.com/6oU7JoG.jpg' }} />
+                                      <Image style={styles.profilePic} source={{ uri: 'https://cdn2.downdetector.com/static/uploads/logo/fb-messenger.png' }} />
                                   </View>
                                   <View>
                                       <Text onPress={openUserInfo} style={styles.name}>{route.params.username}</Text>
@@ -228,9 +228,11 @@ const styles = StyleSheet.create({
       borderRadius: 200
   },
   profilePic: {
-      borderRadius: 200,
-      width: responsiveHeight(5),
-      height: responsiveHeight(5),
+      borderRadius: 100,
+      width: responsiveHeight(3),
+      height: responsiveHeight(3),
+      resizeMode: "cover",
+      margin: 5
   },
   chatViewHeaderLeftContainer: {
       flexDirection: 'row',
