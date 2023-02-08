@@ -12,12 +12,14 @@ import { avatar_basic, BaseURL, coverImage_basic } from '../ultis/Constants'
 const ProfileViewScreen = ({ route }) => {
     const navigation = useNavigation()
     const appContext = useContext(AppContext)
+    let flatListMsgRef;
 
     const { id, avatar, username, coverImage, is_friend, description, birthday } = route.params.user_info
     const user_state = route.params.user_info
     const [block, setBlock] = useState(0)
     const [friendState, setFriendState] = useState("")
     const [friend, setFriend] = useState(is_friend)
+    const [state, setState] = useState(null);
 
     const sentFriendRequest = async () => {
         try {
@@ -290,6 +292,15 @@ const ProfileViewScreen = ({ route }) => {
         navigation.push("FriendList", DATA)
 
         return res;
+    }
+
+    const refreshFlatList = (activeKey) => {
+        setState((prevState) => {
+            return{
+                deletedRowKey: activeKey
+            };
+        });
+        flatListMsgRef.scrollToEnd({animated: true})
     }
 
     const Item = ({ item }) => {

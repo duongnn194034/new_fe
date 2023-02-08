@@ -123,7 +123,7 @@ const HomeChat = () => {
 
                             }} activeOpacity={0.7} style={styles.containerItem}>
                             <Chat
-                            profilePicture='https://i.imgur.com/w3Ln36b.jpg'
+                            profilePicture='https://cdn2.downdetector.com/static/uploads/logo/fb-messenger.png'
                             name={item.partner.username}
                             isLastMessageYours={false}
                             hasSeen={item.lastMessage.unread == 0}
