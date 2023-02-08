@@ -390,10 +390,8 @@ const ProfileViewScreen = ({ route }) => {
                                         }
                                     )
                                     console.log('get conversation');
-                                    // console.log(res.data.data.conversation)
                         
                                     MSG_LIST = res.data.data.conversation;
-                                    // console.log(MSG_LIST[0].message);
                                     
                                     navigation.navigate('ChatView', {
                                         data: MSG_LIST,
@@ -423,7 +421,6 @@ const ProfileViewScreen = ({ route }) => {
                         
                                     console.log(res.data.data)
                                     
-                        
                                     MSG_LIST = [
                                         {
                                             message_id: generateKey(8),

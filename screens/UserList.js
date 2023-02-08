@@ -55,8 +55,6 @@ const Users = () => {
     //         return;
             
     //     } catch (error) {
-    //         console.log(`error: ${error}`)
-    //         console.log('create conversation')
     //         const res = await axios.post(
     //             `${BASEURL}/it4788/chat/create_conversation`,
     //             {},

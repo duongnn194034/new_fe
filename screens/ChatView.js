@@ -21,14 +21,13 @@ const ChatView = ({ route }) => {
 
     // var conversation_Id='';
     const [conversation_Id, setConversation_Id] = useState('');
+    const [mess, setMess] = useState("")
 
     var MSG_LIST = route.params.data
     const partner_id = route.params.partner_id
     const conversationId = route.params.conversation_Id
-    const avatar = route.params.avatar
-    console.log(avatar)
-    console.log(route.params)
-    console.log(route)
+    const avatarChat = route.params.avatar
+    console.log(avatarChat)
 
     const getConversationId = async () => {
         const res = await axios.post(
@@ -96,7 +95,7 @@ const ChatView = ({ route }) => {
                         :
                         <View style={styles.receivedContainer}>
                             <View style={styles.proPicContainer}>
-                                <Image style={styles.proPic} source={{ uri: avatar }} />
+                                <Image style={styles.proPic} source={{ uri: avatarChat }} />
                             </View>
                             <View style={styles.receivedMsgContainer}>
                                 <Text style={styles.receivedMsg}>{item.message}</Text>
@@ -119,8 +118,8 @@ const ChatView = ({ route }) => {
                             <TextInput
                                 placeholder="Aa"
                                 style={styles.input}
-                                onChangeText={newText => setState({ newMsg: newText })}
-                                value={state.newMsg} />
+                                onChangeText={setMess}
+                                value={mess} />
                             <Entypo name="emoji-happy" size={responsiveFontSize(2.5)} color="gray" />
                         </View>
 
@@ -128,6 +127,8 @@ const ChatView = ({ route }) => {
                             getConversationId();
                             console.log(conversation_Id);
                             console.log(typeof (conversation_Id));
+
+                            state.newMsg = mess
 
                             if (state.newMsg == '') {
                                 console.log('message is null');
