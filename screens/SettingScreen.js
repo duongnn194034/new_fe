@@ -25,11 +25,11 @@ const SettingScreen = () => {
                     }
                 }
             )
-            console.log(JSON.stringify(res))
+            console.log(JSON.stringify(res.data.data))
             appContext.dispatch({
                 type: 'LOGOUT'
             })
-            navigation.push("SignIn")
+            navigation.navigate("SignIn")
         } catch (error) {
             console.log(JSON.stringify(error.message))
         }

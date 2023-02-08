@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, StyleSheet, Text, ScrollView, TextInput, Alert, FlatList, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, Text, ScrollView, TextInput, Alert, FlatList, TouchableOpacity, SafeAreaView } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import Chat from "../components/Chat";
@@ -49,7 +49,7 @@ const HomeChat = () => {
 
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.searchContainer}>
                     <View style={styles.searchIconContainer}>
                         <Ionicons name="ios-search" size={responsiveFontSize(3)} color="gray" />
@@ -178,7 +178,7 @@ const HomeChat = () => {
                 />
                 
             </ScrollView> */}
-        </View>
+        </SafeAreaView>
     )
 }
 

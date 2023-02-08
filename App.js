@@ -146,12 +146,6 @@ export default function App() {
                           }
                           return (
                               <View style={styles.chatViewHeaderRightContainer}>
-                                  {/* <TouchableOpacity style={styles.call}>
-                                      <Ionicons name="ios-call" size={responsiveFontSize(3)} color="#006AFF" />
-                                  </TouchableOpacity>
-                                  <TouchableOpacity style={styles.video}>
-                                      <FontAwesome name="video-camera" size={responsiveFontSize(3)} color="#006AFF" />
-                                  </TouchableOpacity> */}
                                   <TouchableOpacity style={styles.info}>
                                       <FontAwesome5 onPress={openUserInfo} name="info-circle" size={responsiveFontSize(3)} color="#006AFF" />
                                   </TouchableOpacity>

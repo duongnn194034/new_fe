@@ -1,6 +1,6 @@
 import { Entypo, FontAwesome5 } from "@expo/vector-icons";
 import React, { useState, useEffect, useContext } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, TextInput, FlatList, Image } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, TextInput, FlatList, Image, SafeAreaView } from "react-native";
 import { useNavigation } from '@react-navigation/native'
 import { responsiveFontSize, responsiveHeight } from "react-native-responsive-dimensions";
 import axios from 'axios'
@@ -16,9 +16,13 @@ const ChatView = ({route}) => {
     // var conversation_Id='';
     const [conversation_Id, setConversation_Id] = useState('');
     
-    var MSG_LIST = route.params.data;
-    const partner_id = route.params.partner_id;
+    var MSG_LIST = route.params.data
+    const partner_id = route.params.partner_id
     const conversationId = route.params.conversation_Id
+    const avatar = route.params.avatar
+    console.log(avatar)
+    console.log(route.params)
+    console.log(route)
     
     const getConversationId = async () => {
         const res = await axios.post(
@@ -70,7 +74,7 @@ const ChatView = ({route}) => {
     }
     
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
 
             <FlatList
                 ref={(ref) => {flatListMsgRef = ref}}
@@ -86,7 +90,7 @@ const ChatView = ({route}) => {
                     :
                         <View style={styles.receivedContainer}>
                             <View style={styles.proPicContainer}>
-                                <Image style={styles.proPic} source={{ uri : 'https://i.imgur.com/6oU7JoG.jpg' }} />
+                                <Image style={styles.proPic} source={{ uri : avatar }} />
                             </View>
                             <View style={styles.receivedMsgContainer}>
                                 <Text style={styles.receivedMsg}>{item.message}</Text>
@@ -155,7 +159,7 @@ const ChatView = ({route}) => {
                     <FontAwesome5 name="paper-plane" size={responsiveFontSize(3.5)} color="#006AFF" />
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 

@@ -295,7 +295,7 @@ const ProfileViewScreen = ({ route }) => {
     const Item = ({ item }) => {
         return (
             <TouchableOpacity
-                onPress={() => navigation.push("ProfileView", { item })}
+                // onPress={() => navigation.push("ProfileView", { item })}
                 style={{ alignItems: "center", marginHorizontal: 5 }}>
                 <Image
                     source={item.avatar}
@@ -388,8 +388,10 @@ const ProfileViewScreen = ({ route }) => {
                                         data: MSG_LIST,
                                         partner_id: id,
                                         username: username,
-                                        conversation_id: ''
+                                        conversation_id: '',
+                                        avatar: avatar ? avatar : avatar_basic.uri
                                     });
+                                    console.log(avatar_basic.uri)
                                     return;
                                     
                                 } catch (error) {
