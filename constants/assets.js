@@ -36,6 +36,7 @@ import livein from "../assets/images/livein_ic.png"
 import graduate from "../assets/images/graduate_ic.png"
 import friend_ic from "../assets/images/friend_ic.png"
 import mess_ic from "../assets/images/mess_ic.png"
+import default_img from "../assets/images/stock_avatar.jpg"
 
 export default {
   badge,
@@ -75,5 +76,6 @@ export default {
   livein,
   graduate,
   friend_ic,
-  mess_ic
+  mess_ic,
+  default_img
 };

@@ -39,6 +39,7 @@ const Post = (props) => {
   const numLike = props.numLike2;
   const samePer = props.samePer;
   var timeDisplay = props.timeCreated;
+  console.log(props)
   useEffect(() => {
     setCommentDisplay(props.numComment);
   }, [props.numComment]);
@@ -96,7 +97,7 @@ const Post = (props) => {
           <TouchableOpacity
             style={styles.Button}
             onPress={() => {
-              postLike(props.id, props.id, appContext.loginState.token)
+              postLike(props.id, appContext.loginState.token)
               .then(() => {
                 if (!liked) {
                   addLike();

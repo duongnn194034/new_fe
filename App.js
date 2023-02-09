@@ -17,6 +17,7 @@ import HomeChatTabs from "./navigations/HomeChatTabs";
 import MainNavigation from "./navigations/MainNavigation";
 import ChatView from "./screens/ChatView";
 import UserInfo from "./screens/UserInfo";
+import { Post, DetailPost } from "./screens/PostGroup";
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -32,32 +33,10 @@ import {
 import { BaseURL } from "./ultis/Constants";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
-
-import { reducer } from './context/AppReducer'
-import AppContext from './context/AppContext'
-
-import Home from "./screens/HomeGroup";
-import { Post, DetailPost } from "./screens/PostGroup";
-import ProfileScreen from './screens/ProfileScreen';
-import EditScreen from './screens/EditScreen';
-import EditViewScreen from './screens/EditViewScreen';
-import SettingScreen from './screens/SettingScreen';
-import ProfileViewScreen from './screens/ProfileViewScreen';
-import FriendListScreen from './screens/FriendListScreen';
-import ChangePassScreen from './screens/ChangePassScreen';
-import SignIn from './screens/SignInScreen';
-import SignUp from './screens/SignUpScreen';
-import HomeChatTabs from './navigations/HomeChatTabs';
-import MainNavigation from './navigations/MainNavigation';
-import ChatView from './screens/ChatView';
-import UserInfo from './screens/UserInfo';
-import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-dimensions';
-import { Alert, Image, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
-import { BaseURL } from './ultis/Constants';
-import { FontAwesome5, Ionicons } from '@expo/vector-icons';
-import axios from 'axios';
+import io from 'socket.io-client';
 
 const Stack = createStackNavigator()
+const socket = io.connect("http://localhost:3001")
 
 export default function App() {
   const initLoginState = {

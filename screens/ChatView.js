@@ -44,17 +44,13 @@ const ChatView = ({ route }) => {
         const response = res.data.data;
 
         for (var i in response) {
-            // console.log(i)
             if (JSON.stringify(response[i].partner.id) == JSON.stringify(partner_id)) {
-                // conversation_Id = JSON.stringify(response[i].id);
                 setConversation_Id(response[i].id);
                 return;
             }
 
         }
     }
-
-    
     
     const refreshFlatList = (activeKey) => {
         setState((prevState) => {
@@ -64,7 +60,6 @@ const ChatView = ({ route }) => {
         });
         flatListMsgRef.scrollToEnd({ animated: true })
     }
-    
     
     const [state, setState] = useState({
         newMsg: '',

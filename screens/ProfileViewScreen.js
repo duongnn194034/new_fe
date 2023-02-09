@@ -20,6 +20,7 @@ const ProfileViewScreen = ({ route }) => {
     const [friendState, setFriendState] = useState("")
     const [friend, setFriend] = useState(is_friend)
     const [state, setState] = useState(null);
+    const [room, setRoom] = useState("")
 
     const sentFriendRequest = async () => {
         try {

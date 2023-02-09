@@ -1,7 +1,5 @@
 import {
   ScrollView,
-  StatusBar,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
