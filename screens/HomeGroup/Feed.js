@@ -1,5 +1,11 @@
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useContext
+} from "react";
 import {
   StyleSheet,
   Text,
@@ -52,7 +58,7 @@ const PersonalNewsFeed = React.memo(function (props) {
   return (
     <View style={styles.subContainer}>
       <View style={styles.Row}>
-        <Avatar source={props.avatar} online />
+        <Avatar source={props.avatarURL} online />
         <PostDirect />
       </View>
       <View style={styles.Divider}></View>
@@ -179,7 +185,7 @@ const Feed = ({ route }) => {
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={<PersonalNewsFeed />}
+        ListHeaderComponent={<PersonalNewsFeed props={appContext.loginState}/>}
         onEndReached={() => {
           changeIndex(index.current + POSTS_PER_LOAD);
           setToggle(!toggle);

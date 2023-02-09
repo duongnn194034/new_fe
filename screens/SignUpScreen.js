@@ -33,7 +33,7 @@ const SignUp = () => {
 
     };
     const onReturnPressed = () => {
-        navigation.push('SignIn')
+        navigation.navigate('SignIn')
     };
     const onNextPressed = async () => {
         if (passwordRe != password) {
@@ -72,7 +72,8 @@ const SignUp = () => {
                         style: 'cancel'
                     }
                 ])
-        } else if (checkConnect) {
+        } else if (!netinfo.isConnected || !netinfo.isInternetReachable) {
+            console.log(checkConnect)
             Alert.alert(
                 "Lỗi mạng",
                 "Kết nối không thành công, kiểm tra kết nối với mạng và thử lại",
@@ -98,8 +99,9 @@ const SignUp = () => {
                         }
                     })
                 console.log(res.data)
-                navigation.push("SignIn")
+                navigation.navigate('SignIn')
             } catch (error) {
+                console.log(error)
                 Alert.alert("Lỗi số điện thoại",
                     "Số điện thoại đã được sử dụng",
                     [

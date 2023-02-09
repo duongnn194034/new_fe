@@ -2,13 +2,14 @@ import axios from "axios";
 import Constants from "expo-constants";
 import { useContext } from "react";
 import AppContext from "../context/AppContext";
+import { BaseURL } from "../ultis/Constants";
 
 const { manifest } = Constants;
 const api =
   typeof manifest.packagerOpts === `object` && manifest.packagerOpts.dev
     ? manifest.debuggerHost.split(`:`).shift().concat(`:8080`)
     : `api.example.com`;
-const url = `http://${api}/`;
+const url = `${BaseURL}`;
 const postLike = async (id, token) => {
   return axios({
     method: "post",

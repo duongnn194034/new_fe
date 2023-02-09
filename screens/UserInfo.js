@@ -40,7 +40,7 @@ export default function UserInfo({route}){
                     } catch (error) {
                         console.log(error);
                     }
-                    navigation.navigate('Home');
+                    navigation.navigate('HomeChat');
                 }},
             ],
             {cancelable: true}
