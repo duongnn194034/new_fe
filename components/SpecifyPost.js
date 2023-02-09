@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   Ionicons,
@@ -12,6 +12,7 @@ import Hyperlink from "react-native-hyperlink";
 import * as WebBrowser from "expo-web-browser";
 import PostImage from "./PostImage";
 import { postLike } from "../api";
+import AppContext from "../context/AppContext";
 const DefaultLink = (props) => {
   const [result, setResult] = useState(null);
   const _handlePressButtonAsync = async (url) => {
@@ -54,6 +55,7 @@ export default SpecifyPost = (props) => {
     else setLikeDisplay(`Bạn và ${numLike} người khác`);
   };
   const navigation = useNavigation();
+  const appContext = useContext(AppContext)
   return (
     <View style={styles.Container}>
       <View style={styles.Header}>
@@ -101,7 +103,7 @@ export default SpecifyPost = (props) => {
                 removeLike();
               }
               setLiked(!liked);
-              postLike(props.id);
+              postLike(props.id, appContext.loginState.token);
             }}
           >
             <View style={styles.Icon}>

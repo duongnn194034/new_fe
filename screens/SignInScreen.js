@@ -61,7 +61,7 @@ const SignIn = () => {
                 avatarURL: user_data.avatar,
                 coverImgURL: user_data.coverImage
             })
-            navigation.push("Profile")
+            navigation.navigate("HomeComponent")
 
             // get_list_friend
             try {
