@@ -4,6 +4,7 @@ import React, {
   useState,
   useRef,
   useCallback,
+  useContext
 } from "react";
 import {
   StyleSheet,

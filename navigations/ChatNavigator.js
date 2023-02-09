@@ -40,7 +40,7 @@ const ChatNavigator = () => {
                             }
                         })
                     }
-                    name="Home"
+                    name="HomeChat"
                     component={HomeChatTabs}
                 />
                 <Stack.Screen

@@ -6,6 +6,8 @@ import React, { useReducer } from 'react';
 import { reducer } from './context/AppReducer'
 import AppContext from './context/AppContext'
 
+import Home from "./screens/HomeGroup";
+import { Post, DetailPost } from "./screens/PostGroup";
 import ProfileScreen from './screens/ProfileScreen';
 import EditScreen from './screens/EditScreen';
 import EditViewScreen from './screens/EditViewScreen';
@@ -66,7 +68,9 @@ export default function App() {
             <NavigationContainer>
                 <Stack.Navigator
                     initialRouteName="SignIn">
-                    <Stack.Screen name="HomeComponent" component={MainNavigation} screenOptions={{ headerShown: false }} />
+                    <Stack.Screen name="Home" component={Home} />
+                    <Stack.Screen name="Post" component={Post} />
+                    <Stack.Screen name="DetailPost" component={DetailPost} />
                     <Stack.Screen name="SignIn" component={SignIn} screenOptions={{ headerShown: false }} />
                     <Stack.Screen name="SignUp" component={SignUp} />
                     <Stack.Screen name="Profile" component={ProfileScreen} screenOptions={{ headerShown: true }} />
@@ -95,7 +99,7 @@ export default function App() {
                                 }
                             })
                         }
-                        name="Home"
+                        name="HomeChat"
                         component={HomeChatTabs}
                     />
                     <Stack.Screen
