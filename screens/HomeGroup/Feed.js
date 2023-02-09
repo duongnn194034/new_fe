@@ -93,7 +93,6 @@ const Feed = ({ route }) => {
   const cache = useCallback(async () => {
     await AsyncStorage.setItem("posts", JSON.stringify(data));
     const output = await AsyncStorage.getItem("posts");
-    // console.log(output)
   }, [data]);
 
   const changeIndex = (newIndex) => {
@@ -112,6 +111,7 @@ const Feed = ({ route }) => {
         id={item.id}
         avatar={item.author.avatar}
         userName={item.author.username}
+        user_id={item.author._id}
         timeCreated={item.created}
         description={item.described}
         numLike={item.like}

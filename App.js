@@ -73,79 +73,71 @@ export default function App() {
 
   return (
     <AppContext.Provider value={appContext}>
-      <NavigationContainer>
-        <Stack.Navigator
-          // screenOptions={{ headerShown: false }}
-          initialRouteName="SignIn">
-          <Stack.Screen name="SignIn" component={SignIn} screenOptions={{ headerShown: false }} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="Profile" component={ProfileScreen} screenOptions={{ headerShown: true }}/>
-          <Stack.Screen name="Edit" component={EditScreen} />
-          <Stack.Screen name="EditView" component={EditViewScreen} />
-          <Stack.Screen name="Setting" component={SettingScreen} />
-          <Stack.Screen name="ProfileView" component={ProfileViewScreen} />
-          <Stack.Screen name="FriendList" component={FriendListScreen} />
-          <Stack.Screen name="ChangePass" component={ChangePassScreen} />
-          <Stack.Screen
-              options={
-                  ({navigation}) => ({
-                      title: 'Message',
-                      // headerRight: () => {
-                      //     return <HeaderButtons/>
-                      // },
-                      headerLeft: () => {
-                          return (<View style={styles.chatViewHeaderLeftContainer}>
-                            <TouchableOpacity onPress={() => navigation.goBack()}>
-                                    <Ionicons name="md-arrow-back" size={responsiveFontSize(3)} color="#006AFF" />
-                            </TouchableOpacity>
-                            <View style={{padding: 10}}>
-                                <Image style={styles.image} source={
+        <NavigationContainer>
+            <Stack.Navigator
+                initialRouteName="SignIn">
+                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="Post" component={Post} />
+                <Stack.Screen name="DetailPost" component={DetailPost} />
+                <Stack.Screen name="SignIn" component={SignIn} screenOptions={{ headerShown: false }} />
+                <Stack.Screen name="SignUp" component={SignUp} />
+                <Stack.Screen name="Profile" component={ProfileScreen} screenOptions={{ headerShown: true }} />
+                <Stack.Screen name="Edit" component={EditScreen} />
+                <Stack.Screen name="EditView" component={EditViewScreen} />
+                <Stack.Screen name="Setting" component={SettingScreen} />
+                <Stack.Screen name="ProfileView" component={ProfileViewScreen} />
+                <Stack.Screen name="FriendList" component={FriendListScreen} />
+                <Stack.Screen name="ChangePass" component={ChangePassScreen} />
+                <Stack.Screen
+                    options={
+                        ({ navigation }) => ({
+                            title: 'Message',
+                            headerLeft: () => {
+                                return <Image style={styles.image} source={
                                     {
                                         uri: 'https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/stock_avatar.jpg?alt=media&token=778bec4b-00bb-481d-bdd9-e2b5ac55aa99'
                                     }
                                 } />
-                            </View>
-                        </View>)
-                      },
-                      headerLeftContainerStyle:{
-                          paddingHorizontal: 10
-                      },
-                      headerRightContainerStyle:{
-                          paddingHorizontal: 10
-                      }
-                  })
-              }
-              name="Home"
-              component={HomeChatTabs}
-          />
-          <Stack.Screen
-              name="ChatView"
-              component={ChatView}
-              options={
-                  ({navigation, route}) => ({
-                      title: null,
-                      headerRight: () => {
-                          const openUserInfo = async () => {
-                              
-                              console.log(route.params.partner_id);
-                              try {
-                                  const res = await axios.post(
-                                      `${BaseURL}/it4788/user/get_user_info`,
-                                      {},
-                                      {
-                                          params: {   // Login token
-                                              token: appContext.loginState.token,
-                                              user_id: route.params.partner_id
-                                          }
-                                      }
-                                  )
-                                  console.log(res.data.data.username);
-                                  navigation.navigate('UserInfo', {
-                                      name: res.data.data.username,
-                                      user_id: res.data.data.id,
-                                      birthday: res.data.data.birthday,
-                                      description: res.data.data.description
-                                  })
+                            },
+                            headerLeftContainerStyle: {
+                                paddingHorizontal: 10
+                            },
+                            headerRightContainerStyle: {
+                                paddingHorizontal: 10
+                            }
+                        })
+                    }
+                    name="HomeChat"
+                    component={HomeChatTabs}
+                />
+                <Stack.Screen
+                    name="ChatView"
+                    component={ChatView}
+                    options={
+                        ({ navigation, route }) => ({
+                            title: null,
+                            headerRight: () => {
+                                const openUserInfo = async () => {
+
+                                    console.log(route.params.partner_id);
+                                    try {
+                                        const res = await axios.post(
+                                            `${BaseURL}/it4788/user/get_user_info`,
+                                            {},
+                                            {
+                                                params: {
+                                                    token: appContext.loginState.token,
+                                                    user_id: route.params.partner_id
+                                                }
+                                            }
+                                        )
+                                        console.log(res.data.data.username);
+                                        navigation.navigate('UserInfo', {
+                                            name: res.data.data.username,
+                                            user_id: res.data.data.id,
+                                            birthday: res.data.data.birthday,
+                                            description: res.data.data.description
+                                        })
 
 
                                         } catch (error) {

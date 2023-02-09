@@ -55,6 +55,25 @@ const Post = (props) => {
     else if (numLike == 0) setLikeDisplay("Bạn");
     else setLikeDisplay(`Bạn và ${numLike} người khác`);
   };
+  const get_item_info = async (userId) => {
+    const res = await axios.post(
+        `${BaseURL}/it4788/user/get_user_info`,
+        {},
+        {
+            params: {
+                token: appContext.loginState.token,
+                user_id: userId
+            }
+        }
+    )
+    const user_info = res.data.data
+    console.log(user_info)
+    if (user_info.id == appContext.loginState.user_id) {
+        navigation.navigate("Profile")
+    } else {
+        navigation.push("ProfileView", {user_info})
+    }
+}
   const navigation = useNavigation();
   return (
     <View style={styles.Container}>
@@ -62,7 +81,7 @@ const Post = (props) => {
         <View style={styles.Row}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Profile");
+              get_item_info(props.user_id)
             }}
           >
             <Avatar avatar={props.avatar} online={props.active} />
