@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
+
 export default Avatar = (props) => {
   const imageUrl= props.Avatar;
   return (

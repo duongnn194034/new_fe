@@ -20,7 +20,6 @@ import Post from "../../components/Post";
 import Avatar from "../../components/Avatar";
 import { getPost, getListPosts } from "../../api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import App from "../../App";
 import AppContext from "../../context/AppContext";
 const POSTS_PER_LOAD = 4;
 const WIDTH_MODAL = Dimensions.get("window").width;
@@ -59,7 +58,7 @@ const PersonalNewsFeed = React.memo(function (props) {
   return (
     <View style={styles.subContainer}>
       <View style={styles.Row}>
-        <Avatar source={props.avatar} online />
+        <Avatar source={props.avatarURL} online />
         <PostDirect />
       </View>
       <View style={styles.Divider}></View>
@@ -181,7 +180,7 @@ const Feed = ({ route }) => {
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={<PersonalNewsFeed />}
+        ListHeaderComponent={<PersonalNewsFeed props={appContext.loginState}/>}
         onEndReached={() => {
           changeIndex(index.current + POSTS_PER_LOAD);
           setToggle(!toggle);
