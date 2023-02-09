@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Entypo, AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -57,7 +57,14 @@ const Post = (props) => {
     <View style={styles.Container}>
       <View style={styles.Header}>
         <View style={styles.Row}>
-          <Avatar avatar={props.avatar} online={props.active} />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Profile");
+            }}
+          >
+            <Avatar avatar={props.avatar} online={props.active} />
+          </TouchableOpacity>
+
           <View style={{ paddingLeft: 10 }}>
             <Text style={styles.Text}>{props.userName}</Text>
             <View style={styles.Row}>
@@ -88,15 +95,17 @@ const Post = (props) => {
             style={styles.Button}
             onPress={() => {
               postLike(props.id)
-              .then(() => {
-                if (!liked) {
-                  addLike();
-                } else {
-                  removeLike();
-                }
-                setLiked(!liked);
-              })
-              .catch((err)=>{console.log(err)});
+                .then(() => {
+                  if (!liked) {
+                    addLike();
+                  } else {
+                    removeLike();
+                  }
+                  setLiked(!liked);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
             }}
           >
             <View style={styles.Icon}>

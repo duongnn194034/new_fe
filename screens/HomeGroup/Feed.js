@@ -1,10 +1,5 @@
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -19,7 +14,6 @@ import Post from "../../components/Post";
 import Avatar from "../../components/Avatar";
 import { getPost, getListPosts } from "../../api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import App from "../../App";
 import AppContext from "../../context/AppContext";
 const POSTS_PER_LOAD = 4;
 const WIDTH_MODAL = Dimensions.get("window").width;
@@ -66,7 +60,7 @@ const PersonalNewsFeed = React.memo(function (props) {
   );
 });
 const Feed = ({ route }) => {
-  const appContext = useContext(AppContext)
+  const appContext = useContext(AppContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [refreshing, setRefresing] = useState(false);
@@ -95,7 +89,7 @@ const Feed = ({ route }) => {
     const output = await AsyncStorage.getItem("posts");
     // console.log(output)
   }, [data]);
-  
+
   const changeIndex = (newIndex) => {
     index.current = newIndex;
   };
@@ -137,7 +131,12 @@ const Feed = ({ route }) => {
       });
   };
   const getData = async () => {
-    await getListPosts(index.current, POSTS_PER_LOAD, last_id.current, appContext.loginState.token)
+    await getListPosts(
+      index.current,
+      POSTS_PER_LOAD,
+      last_id.current,
+      appContext.loginState.token
+    )
       .then(function (response) {
         if (index.current) setData([...data, ...response.data.data.posts]);
         else {

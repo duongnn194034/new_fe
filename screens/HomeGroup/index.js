@@ -15,7 +15,9 @@ import Notification from "./Notification";
 import Setting from "./Setting";
 import Friend from "./Friend";
 import { NavigationContext } from "../../navigations/MainNavigation";
+import { useNavigation } from "@react-navigation/native";
 const TopBar = () => {
+  const navigation = useNavigation();
   const navigationRef = useContext(NavigationContext);
   const name = navigationRef?.current?.getCurrentRoute()?.name;
   let enable = true;
@@ -30,7 +32,12 @@ const TopBar = () => {
           <TouchableOpacity style={styles.btn}>
             <Feather name="search" size={23} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              navigation.navigate("HomeChat");
+            }}
+          >
             <MaterialCommunityIcons name="facebook-messenger" size={23} />
           </TouchableOpacity>
         </View>
