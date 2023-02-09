@@ -2,35 +2,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useFonts } from "expo-font";
 import React, { useReducer } from "react";
-import { reducer } from "./context/AppReducer";
-import AppContext from "./context/AppContext";
-import ProfileScreen from "./screens/ProfileScreen";
-import EditScreen from "./screens/EditScreen";
-import EditViewScreen from "./screens/EditViewScreen";
-import SettingScreen from "./screens/SettingScreen";
-import ProfileViewScreen from "./screens/ProfileViewScreen";
-import FriendListScreen from "./screens/FriendListScreen";
-import ChangePassScreen from "./screens/ChangePassScreen";
-import SignIn from "./screens/SignInScreen";
-import SignUp from "./screens/SignUpScreen";
-import HomeChatTabs from "./navigations/HomeChatTabs";
-import MainNavigation from "./navigations/MainNavigation";
-import ChatView from "./screens/ChatView";
-import UserInfo from "./screens/UserInfo";
-import {
-  responsiveFontSize,
-  responsiveHeight,
-} from "react-native-responsive-dimensions";
-import {
-  Alert,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Text,
-} from "react-native";
-import { BaseURL } from "./ultis/Constants";
-import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 
 import { reducer } from './context/AppReducer'
@@ -55,7 +26,6 @@ import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-di
 import { Alert, Image, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { BaseURL } from './ultis/Constants';
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
-import axios from 'axios';
 
 const Stack = createStackNavigator()
 
