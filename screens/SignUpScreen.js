@@ -99,8 +99,9 @@ const SignUp = () => {
                         }
                     })
                 console.log(res.data)
-                navigation.push("SignIn")
+                navigation.navigate('SignIn')
             } catch (error) {
+                console.log(error)
                 Alert.alert("Lỗi số điện thoại",
                     "Số điện thoại đã được sử dụng",
                     [
