@@ -9,6 +9,11 @@ export const MALE = "male";
 export const FEMALE = "female";
 export const NO_GENDER = "secret";
 
+// color
+export const appColor = {
+    LIGHT_BLUE: "#3a86e9",
+  };
+
 // server:
 export const BaseURL = "https://7e8c-14-231-165-158.ap.ngrok.io"
 

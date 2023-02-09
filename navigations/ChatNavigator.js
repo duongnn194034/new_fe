@@ -25,9 +25,6 @@ const ChatNavigator = () => {
                     options={
                         ({navigation}) => ({
                             title: 'Message',
-                            // headerRight: () => {
-                            //     return <HeaderButtons/>
-                            // },
                             headerLeft: () => {
                                 return <Image style={styles.image} source={
                                     {
