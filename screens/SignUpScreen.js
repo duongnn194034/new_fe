@@ -35,11 +35,20 @@ const SignUp = () => {
                     style: 'cancel'
                 }
             ])
+        } else if (username == password) {
+            Alert.alert("Mật khẩu không hợp lệ",
+            "Mật khẩu không được trùng với tên đăng nhập",
+            [
+                {
+                    text: "OK",
+                    style: 'cancel'
+                }
+            ])
         } else {
             axios.post(`${baseUrl}/it4788/auth/signup?name=${username}&password=${password}&phonenumber=${phoneNumber}&birthday=${selectedDate}`)
                 .then((response) => {
-                    let verifyCode = response.data.data.verifyCode
-                    console.log(verifyCode)
+                    // let verifyCode = response.data.data.verifyCode
+                    // console.log(verifyCode)   
                 }).catch((error) => {
                     console.log(error)
                     console.log(JSON.stringify(error))
