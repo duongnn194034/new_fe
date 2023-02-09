@@ -83,11 +83,18 @@ export default function App() {
                       //     return <HeaderButtons/>
                       // },
                       headerLeft: () => {
-                          return <Image style={styles.image} source={
-                              {
-                                  uri: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'
-                              }
-                          } />
+                          return (<View style={styles.chatViewHeaderLeftContainer}>
+                                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                                            <Ionicons name="md-arrow-back" size={responsiveFontSize(3)} color="#006AFF" />
+                                    </TouchableOpacity>
+                                    <View style={{padding: 10}}>
+                                        <Image style={styles.image} source={
+                                            {
+                                                uri: 'https://firebasestorage.googleapis.com/v0/b/danentang-1edea.appspot.com/o/stock_avatar.jpg?alt=media&token=778bec4b-00bb-481d-bdd9-e2b5ac55aa99'
+                                            }
+                                        } />
+                                    </View>
+                                </View>)
                       },
                       headerLeftContainerStyle:{
                           paddingHorizontal: 10
