@@ -61,7 +61,7 @@ const SignIn = () => {
                 avatarURL: user_data.avatar,
                 coverImgURL: user_data.coverImage
             })
-            navigation.push("Profile")
+            navigation.navigate("Home")
 
             // get_list_friend
             try {
@@ -137,8 +137,20 @@ const SignIn = () => {
             }
         } catch (error) {
             console.log(error)
+            if (JSON.stringify(error) == "[AxiosError: timeout exceeded]") {
+                Alert.alert(
+                    "Lỗi mạng",
+                    "Không thể gửi yêu cầu, kiểm tra lại kết nối mạng",
+                    [
+                        {
+                            text: "OK",
+                            style: 'cancel'
+                        }
+                    ]
+                )
+            }
             Alert.alert(
-                "Lỗi đăng nhập",
+                "Lỗi",
                 "Tài khoản hoặc mật khẩu không chính xác",
                 [
                     {

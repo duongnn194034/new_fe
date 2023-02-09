@@ -169,7 +169,7 @@ const EditScreen = () => {
                 avatarURL: avatar,
                 coverImgURL: cover
             })
-            navigation.push("Profile")
+            navigation.navigate("Profile")
         } catch (error) {
             console.log(error)
         }

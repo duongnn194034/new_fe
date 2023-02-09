@@ -62,35 +62,6 @@ const HomeChat = () => {
                     keyExtractor={item => item.id}
                     renderItem={({item, index}) => {
                         return <TouchableOpacity onPress={ async () => {
-                                // console.log(listData[0]);
-                                // try {
-                                //     const resInfo = await axios.post(
-                                //         `${BASEURL}/it4788/user/get_user_info`,
-                                //         {},
-                                //         {
-                                //             params: {   // Login token
-                                //                 token: LOGIN_TOKEN,
-                                //                 user_id: item.partner.id
-                                //             }
-                                //         }
-                                //     )
-                                //     console.log(resInfo.data.data.username);
-                                //     setUserInfo(resInfo.data.data);
-                        
-                                // } catch (error) {
-                                //     console.log(`error: ${error}`);
-                                //     Alert.alert(
-                                //         "Lỗi lấy thông tin",
-                                //         "Không thể lấy thông tin User",
-                                //         [
-                                //             {
-                                //                 text: "OK",
-                                //                 style: 'cancel'
-                                //             }
-                                //         ]
-                                //     )
-                                // }
-
                                 try {
                                     const res = await axios.post(
                                         `${BaseURL}/it4788/chat/get_conversation`,

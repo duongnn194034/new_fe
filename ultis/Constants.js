@@ -9,8 +9,13 @@ export const MALE = "male";
 export const FEMALE = "female";
 export const NO_GENDER = "secret";
 
+// color
+export const appColor = {
+    LIGHT_BLUE: "#3a86e9",
+  };
+
 // server:
-export const BaseURL = "https://7e8c-14-231-165-158.ap.ngrok.io"
+export const BaseURL = "https://1876-2405-4803-fe7a-7680-3940-a7a0-767c-a7db.ap.ngrok.io"
 
 // image:
 export const avatar_basic = {
